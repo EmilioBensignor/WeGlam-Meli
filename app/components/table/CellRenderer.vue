@@ -16,7 +16,7 @@
         <span>{{ value || '-' }}</span>
     </div>
     <div v-else-if="column.type === 'image-array'" class="flex items-center justify-center">
-        <img :src="value?.[0]" :alt="column.label" class="w-16 h-16 object-contain rounded-lg" />
+        <img :src="typeof value?.[0] === 'object' ? value?.[0]?.url : value?.[0]" :alt="column.label" class="w-16 h-16 object-contain rounded-lg" />
     </div>
     <span v-else-if="column.type === 'yesno'">{{ value ? 'Sí' : 'No' }}</span>
     <div v-else-if="column.type === 'link'" class="flex items-center justify-center">

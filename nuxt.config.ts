@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  runtimeConfig: {
+    // Solo disponibles en el servidor (privadas)
+    apiKey: process.env.API_KEY,
+    backendUrl: process.env.BACKEND_URL,
+  },
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   modules: [
