@@ -74,7 +74,7 @@ const formatPrice = (value) => {
 
 onMounted(async () => {
     try {
-        const data = await $fetch(`/api/products/${route.params.sku}`)
+        const data = await $fetch(`/api/sync-id-products/${route.params.sku}`)
         product.value = data
     } catch (e) {
         error.value = e?.data?.message || 'No se pudo cargar el producto.'

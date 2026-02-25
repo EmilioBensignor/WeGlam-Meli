@@ -37,7 +37,7 @@
                 <TableLayout :data="paginatedResults" :columns="columns" :show-actions="false"
                     :empty-state-text="'No se encontraron productos para tu búsqueda.'" row-key="sku">
                     <template #cell-sku="{ item }">
-                        <NuxtLink :to="`/productos/${item.sku}`"
+                        <NuxtLink :to="`/productos/${item.ml_id}`"
                             class="text-dark underline underline-offset-2 whitespace-nowrap">
                             Ver detalle
                         </NuxtLink>
