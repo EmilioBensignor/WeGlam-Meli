@@ -50,13 +50,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const menu = [
-    {
-        route: ROUTE_NAMES.HOME,
-        title: "Ejemplo",
-        icon: "package",
-    },
-]
+const menu = [];
 
 const loggingOut = ref(false)
 const router = useRouter()

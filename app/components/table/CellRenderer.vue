@@ -1,26 +1,24 @@
 <template>
     <div v-if="column.type === 'image'" class="flex items-center justify-center">
-        <img :src="getImageUrl(value)" :alt="column.label" class="w-16 h-16 object-contain rounded-lg" />
+        <img :src="getImageUrl(value)" :alt="column.label" class="w-24 h-24 object-contain rounded-lg" />
     </div>
     <div v-else-if="column.type === 'color'" class="flex items-center justify-center gap-2">
-        <div
-            :style="{ backgroundColor: value }"
-            class="w-8 h-8 rounded-full border-2 border-gray-300 shadow-sm"
-            :title="value"
-        ></div>
+        <div :style="{ backgroundColor: value }" class="w-8 h-8 rounded-full border-2 border-gray-300 shadow-sm"
+            :title="value"></div>
         <span class="text-sm">{{ value }}</span>
     </div>
     <div v-else-if="(column.type === 'text' || column.type === 'textarea')"
-        class="w-full max-h-32 overflow-y-auto whitespace-pre-wrap break-words"
-        style="max-height: 8rem;">
+        class="w-full max-h-32 overflow-y-auto whitespace-pre-wrap break-words" style="max-height: 8rem;">
         <span>{{ value || '-' }}</span>
     </div>
     <div v-else-if="column.type === 'image-array'" class="flex items-center justify-center">
-        <img :src="typeof value?.[0] === 'object' ? value?.[0]?.url : value?.[0]" :alt="column.label" class="w-16 h-16 object-contain rounded-lg" />
+        <img :src="typeof value?.[0] === 'object' ? value?.[0]?.url : value?.[0]" :alt="column.label"
+            class="w-24 h-24 object-contain rounded-lg" />
     </div>
     <span v-else-if="column.type === 'yesno'">{{ value ? 'Sí' : 'No' }}</span>
     <div v-else-if="column.type === 'link'" class="flex items-center justify-center">
-        <a :href="value" target="_blank" rel="noopener noreferrer" class="text-dark underline underline-offset-2">
+        <a :href="value" target="_blank" rel="noopener noreferrer"
+            class="text-dark underline underline-offset-2 whitespace-nowrap">
             {{ column.linkText || 'Ver' }}
         </a>
     </div>
