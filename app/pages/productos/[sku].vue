@@ -2,21 +2,17 @@
     <DefaultSection>
         <div class="w-full max-w-4xl flex flex-col gap-6">
 
-            <!-- Loading -->
             <div v-if="loading" class="w-full text-center py-16 text-gray-500 flex items-center justify-center gap-2">
                 <Icon name="tabler:loader-2" class="w-5 h-5 animate-spin" />
                 Cargando producto...
             </div>
 
-            <!-- Error -->
             <div v-else-if="error" class="w-full text-center py-16 flex flex-col items-center gap-4">
                 <p class="text-red-500">{{ error }}</p>
                 <ButtonPrimary to="/">← Volver a productos</ButtonPrimary>
             </div>
 
-            <!-- Detalle -->
             <template v-else-if="product">
-                <!-- Header -->
                 <div class="flex items-center justify-between gap-4">
                     <NuxtLink to="/" class="text-sm text-gray-500 hover:text-dark transition flex items-center gap-1">
                         <Icon name="tabler:arrow-left" class="w-4 h-4" />
@@ -27,10 +23,8 @@
                     </a>
                 </div>
 
-                <!-- Título -->
                 <HeadingH1>{{ product.titulo }}</HeadingH1>
 
-                <!-- Imágenes -->
                 <div v-if="images.length" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                     <img
                         v-for="(img, i) in images"
@@ -41,7 +35,6 @@
                     />
                 </div>
 
-                <!-- Datos -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="flex flex-col gap-1 bg-gray-light rounded-xl p-4">
                         <span class="text-xs text-gray-500 uppercase tracking-wide">Precio</span>
@@ -59,7 +52,6 @@
                     </div>
                 </div>
 
-                <!-- SKU -->
                 <p class="text-xs text-gray-400">SKU: {{ product.sku }}</p>
             </template>
 
