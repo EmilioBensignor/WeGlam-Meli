@@ -6,9 +6,32 @@
     font-family: "Outfit", sans-serif;
 }
 
-html, body {
+html,
+main {
+    height: 100%;
+}
+
+body {
     height: 100%;
     overflow-x: hidden;
     scroll-behavior: smooth;
     color: #131313;
+}
+
+body>div:first-of-type {
+    height: 100%;
+    display: grid;
+    grid: "header" auto "main" 1fr "footer" auto / 1fr;
+}
+
+header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main;
+}
+
+footer {
+    grid-area: footer;
 }

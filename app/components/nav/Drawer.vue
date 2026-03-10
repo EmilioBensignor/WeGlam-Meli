@@ -50,16 +50,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const menu = [
-    { title: 'Dashboard', icon: 'layout-dashboard', route: ROUTE_NAMES.HOME },
-    { title: 'Productos', icon: 'package', route: ROUTE_NAMES.PRODUCTS },
-    { title: 'Rentabilidad', icon: 'trending-up', route: ROUTE_NAMES.PROFITABILITY },
-    { title: 'Recomendaciones', icon: 'target', route: ROUTE_NAMES.RECOMMENDATIONS },
-    { title: 'Publicidad', icon: 'speakerphone', route: ROUTE_NAMES.ADVERTISING },
-    { title: 'Órdenes', icon: 'shopping-cart', route: ROUTE_NAMES.ORDERS },
-    { title: 'Analytics', icon: 'chart-bar', route: ROUTE_NAMES.ANALYTICS },
-    { title: 'Costos', icon: 'coin', route: ROUTE_NAMES.COSTS },
-];
+const menu = [];
 
 const loggingOut = ref(false)
 const router = useRouter()
