@@ -1,5 +1,5 @@
 <template>
-    <form class="w-full max-w-[56.25rem] flex flex-col items-center" @submit.prevent="$emit('submit')">
+    <form class="w-full max-w-225 flex flex-col items-center" @submit.prevent="$emit('submit')">
         <slot />
     </form>
 </template>

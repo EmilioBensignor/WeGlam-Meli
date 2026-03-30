@@ -3,10 +3,10 @@
         <FormLabel :id="id" :required="required" v-if="label">{{ label }}</FormLabel>
 
         <div class="relative">
-            <Icon v-if="icon" :name="`tabler:${icon}`" class="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6" :class="iconClass || 'text-gray-dark'" />
+            <Icon v-if="icon" :name="`tabler:${icon}`" class="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6" :class="iconClass || 'text-on-surface-variant'" />
             <input ref="inputElement" :id="inputId" :type="type" :placeholder="placeholder" :value="modelValue" :required="required"
                 @input="handleInput" @blur="handleBlur" @focus="handleFocus" :autocomplete="autocomplete"
-                class="w-full bg-light border border-dark rounded-[5px] outline-none lg:text-xl font-light lg:placeholder:text-xl placeholder:font-light placeholder:text-gray-dark py-3 px-[0.875rem] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                class="w-full bg-surface-container border border-outline-variant rounded-[5px] text-on-surface outline-none lg:text-xl font-light lg:placeholder:text-xl placeholder:font-light placeholder:text-on-surface-variant py-3 px-3.5 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                 :class="icon ? 'pl-12' : ''" />
         </div>
 

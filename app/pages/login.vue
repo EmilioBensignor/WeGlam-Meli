@@ -12,12 +12,12 @@
                     :error="errors.password" required @blur="validatePassword" />
             </FormFieldsContainer>
 
-            <NuxtLink :to="ROUTE_NAMES.FORGOT_PASSWORD" class="text-dark font-light underline">
+            <NuxtLink :to="ROUTE_NAMES.FORGOT_PASSWORD" class="text-on-surface font-light underline">
                 ¿Olvidaste tu contraseña?
             </NuxtLink>
 
             <p class="flex items-center gap-1">Si no tienes una cuenta,<NuxtLink :to="ROUTE_NAMES.REGISTER"
-                    class="text-dark font-light underline">
+                    class="text-on-surface font-light underline">
                     registrate</NuxtLink>
             </p>
             <FormError v-if="errorMsg">
@@ -109,6 +109,7 @@ const handleSignIn = async () => {
 
         if (error) {
             errorMsg.value = handleSupabaseError(error);
+            return
         }
 
         router.push(ROUTE_NAMES.HOME)

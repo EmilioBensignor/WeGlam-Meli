@@ -1,5 +1,6 @@
 export const useSupabaseCache = () => {
     const getFromCache = (key) => {
+        if (!import.meta.client) return null
         try {
             const cachedData = localStorage.getItem(key);
             if (!cachedData) return null;
@@ -18,6 +19,7 @@ export const useSupabaseCache = () => {
     };
 
     const saveToCache = (key, data, ttlMinutes = 60) => {
+        if (!import.meta.client) return
         try {
             const expiry = Date.now() + (ttlMinutes * 60 * 1000);
             localStorage.setItem(key, JSON.stringify({ data, expiry }));
@@ -49,6 +51,7 @@ export const useSupabaseCache = () => {
     };
 
     const clearAuthCache = () => {
+        if (!import.meta.client) return
         localStorage.removeItem('auth_session_cache');
     };
 

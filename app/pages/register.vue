@@ -20,7 +20,7 @@
                     @blur="validatePasswordConfirm" />
             </FormFieldsContainer>
             <p class="flex items-center gap-1">Si ya tienes una cuenta,<NuxtLink :to="ROUTE_NAMES.LOGIN"
-                    class="text-dark font-light underline">
+                    class="text-on-surface font-light underline">
                     inicia
                     sesión</NuxtLink>
             </p>
@@ -28,7 +28,7 @@
                 {{ errorMsg }}
             </FormError>
 
-            <ButtonPrimary type="submit" class="lg:!px-48" :disabled="loading || !isValid">
+            <ButtonPrimary type="submit" :disabled="loading || !isValid">
                 <span v-if="!loading">Registrarse</span>
                 <span v-else class="flex justify-center items-center gap-2">
                     <Icon name="tabler:loader-2" class="animate-spin" />

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"PrimeVue\\\\|primevue\\\\|prime-vue\" /Users/lio/Desktop/Motix/Clientes/WeGlam/WeGlam-Meli/app --include=*.vue --include=*.ts --include=*.js)",
+      "Bash(grep -r \"mercadolibre\\\\|meli\\\\|ML\\\\|api.mercado\" /Users/lio/Desktop/Motix/Clientes/WeGlam/WeGlam-Meli --include=*.vue --include=*.js --include=*.ts)",
+      "Bash(grep -r \"BACKEND_URL\\\\|API_KEY\\\\|backend\\\\|mercado\\\\|meli\" /Users/lio/Desktop/Motix/Clientes/WeGlam/WeGlam-Meli --include=*.vue --include=*.js --include=*.ts --exclude-dir=node_modules)",
+      "mcp__context7__resolve-library-id",
+      "WebSearch",
+      "mcp__context7__query-docs",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)"
+    ]
+  }
+}

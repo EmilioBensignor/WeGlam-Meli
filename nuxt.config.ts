@@ -8,12 +8,18 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   modules: [
+    '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxtjs/supabase',
-    '@nuxtjs/tailwindcss',
   ],
+  ui: {
+    colorMode: true,
+  },
+  colorMode: {
+    preference: 'dark',
+  },
   supabase: {
     redirectOptions: {
       login: '/login',
@@ -39,15 +45,25 @@ export default defineNuxtConfig({
     },
   },
   fonts: {
-    defaults: {
-      weights: [300, 400, 500, 600, 700],
-    }
+    families: [
+      { name: 'Outfit', provider: 'google', weights: [300, 400, 500, 600, 700, 800] },
+    ],
   },
   icon: {
     size: '1rem',
     class: 'tablerIcon',
     serverBundle: {
-      collections: ['tabler'],
+      collections: ['tabler', 'lucide'],
     }
+  },
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        'vue-chartjs',
+        'chart.js',
+      ],
+    },
   },
 })

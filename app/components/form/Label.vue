@@ -1,11 +1,11 @@
 <template>
-    <label v-if="id" :for="id" class="text-dark font-light lg:text-xl">
+    <label v-if="id" :for="id" class="text-on-surface font-light lg:text-xl">
         <slot />
-        <span v-if="required" class="text-primary ml-1">*</span>
+        <span v-if="required" class="text-primary-400 ml-1">*</span>
     </label>
-    <p v-else class="text-dark font-light lg:text-xl">
+    <p v-else class="text-on-surface font-light lg:text-xl">
         <slot />
-        <span v-if="required" class="text-primary ml-1">*</span>
+        <span v-if="required" class="text-primary-400 ml-1">*</span>
     </p>
 </template>
 

@@ -1,5 +1,3 @@
-import { ref, readonly } from 'vue'
-
 const notifications = ref([])
 
 export const useNotification = () => {

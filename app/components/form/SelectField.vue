@@ -1,19 +1,19 @@
 <template>
     <div class="w-full flex flex-col gap-2">
-        <p v-if="label" class="text-dark font-light lg:text-xl">
+        <p v-if="label" class="text-on-surface font-light lg:text-xl">
             {{ label }}
-            <span v-if="required" class="text-primary ml-1">*</span>
+            <span v-if="required" class="text-primary-400 ml-1">*</span>
         </p>
 
         <div class="relative">
             <div ref="dropdownTrigger" @click="toggleDropdown"
-                class="flex items-center justify-between bg-light border border-dark rounded-[5px] lg:text-xl font-light text-dark cursor-pointer outline-none py-3 px-[0.875rem]">
+                class="flex items-center justify-between bg-surface-container border border-outline-variant rounded-[5px] lg:text-xl font-light text-on-surface cursor-pointer outline-none py-3 px-3.5">
                 <span v-if="selectedOption" class="truncate">{{ selectedOption.label }}</span>
-                <span v-else class="text-gray-dark">{{ placeholder }}</span>
+                <span v-else class="text-on-surface-variant/50">{{ placeholder }}</span>
 
                 <div class="flex items-center gap-2">
-                    <button v-if="selectedOption && clearable" @click.stop="clearSelection"
-                        class="text-primary" type="button">
+                    <button v-if="selectedOption && clearable" @click.stop="clearSelection" class="text-primary"
+                        type="button">
                         <Icon name="tabler:x" class="w-4 h-4" />
                     </button>
                     <Icon name="tabler:chevron-down" class="w-5 h-5"
@@ -22,23 +22,24 @@
             </div>
 
             <div v-if="isOpen"
-                class="max-h-60 absolute left-0 right-0 z-50 bg-light border border-dark rounded-[5px] overflow-hidden"
+                class="max-h-60 absolute left-0 right-0 z-50 bg-surface-container border border-outline-variant rounded-[5px] overflow-hidden"
                 :class="openUp ? 'bottom-full mb-1' : 'top-full mt-1'">
-                <div class="border-b border-gray-200">
+                <div class="border-b border-outline-variant">
                     <label for="buscar" class="sr-only">Buscar</label>
                     <input id="buscar" v-model="searchQuery" type="text" placeholder="Buscar..."
-                        class="w-full bg-light rounded px-[0.875rem] py-3 text-sm outline-none" @click.stop />
+                        class="w-full bg-surface-container text-on-surface rounded px-3.5 py-3 text-sm outline-none"
+                        @click.stop />
                 </div>
 
                 <div class="max-h-48 overflow-y-auto">
-                    <div v-if="loading" class="p-3 text-center text-gray-dark">
+                    <div v-if="loading" class="p-3 text-center text-on-surface-variant">
                         Cargando...
                     </div>
                     <div v-else-if="filteredOptions.length === 0" class="p-3 text-center text-gray-500">
                         No se encontraron resultados
                     </div>
                     <div v-else v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)"
-                        class="hover:bg-gray-light cursor-pointer transition-colors duration-200 p-3">
+                        class="hover:bg-surface-highest cursor-pointer transition-colors duration-200 p-3 text-on-surface">
                         {{ option.label }}
                     </div>
                 </div>
@@ -52,7 +53,7 @@
 <script setup>
 const props = defineProps({
     modelValue: {
-        type: [String, Number,null],
+        type: [String, Number, null],
         default: null
     },
     label: {

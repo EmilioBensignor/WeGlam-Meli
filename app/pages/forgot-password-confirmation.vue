@@ -4,14 +4,14 @@
 
         <div class="flex flex-col items-center gap-4 lg:gap-7">
             <div class="flex flex-col items-center gap-4 lg:gap-6">
-                <p class="text-center text-dark lg:text-xl">
+                <p class="text-center text-on-surface lg:text-xl">
                     Se envió un correo electrónico a <strong>{{ email }}</strong> para poder
                     reestablecer la contraseña.
                 </p>
 
                 <div class="w-full flex justify-center items-center gap-2">
-                    <p class="text-dark lg:text-xl">¿El correo electrónico indicado no es correcto?</p>
-                    <NuxtLink :to="ROUTE_NAMES.FORGOT_PASSWORD" class="text-dark font-light underline lg:text-xl">
+                    <p class="text-on-surface lg:text-xl">¿El correo electrónico indicado no es correcto?</p>
+                    <NuxtLink :to="ROUTE_NAMES.FORGOT_PASSWORD" class="text-on-surface font-light underline lg:text-xl">
                         Modificar
                     </NuxtLink>
                 </div>

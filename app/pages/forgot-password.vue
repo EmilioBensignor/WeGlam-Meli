@@ -1,6 +1,6 @@
 <template>
     <DefaultSection>
-        <NuxtLink :to="ROUTE_NAMES.LOGIN" class="flex items-center gap-2 self-start text-dark font-light no-underline">
+        <NuxtLink :to="ROUTE_NAMES.LOGIN" class="flex items-center gap-2 self-start text-on-surface font-light no-underline">
             <Icon name="tabler:arrow-left" size="1.25rem" />
             Volver a Iniciar sesión
         </NuxtLink>
@@ -8,7 +8,7 @@
         <HeadingH1>Restablecer contraseña</HeadingH1>
 
         <div class="flex flex-col items-center gap-4 lg:gap-6">
-            <p class="text-dark lg:text-xl">
+            <p class="text-on-surface lg:text-xl">
                 Ingrese el correo electrónico de su cuenta para poder reestablecer su contraseña.
             </p>
 
@@ -97,9 +97,7 @@ const handleForgotPassword = async () => {
     }
 
     try {
-        const baseUrl = import.meta.env.PROD
-            ? 'https://cms-unike-group.vercel.app'
-            : 'http://localhost:3000'
+        const baseUrl = window.location.origin
 
         const redirectUrl = `${baseUrl}${ROUTE_NAMES.RESET_PASSWORD}`
 

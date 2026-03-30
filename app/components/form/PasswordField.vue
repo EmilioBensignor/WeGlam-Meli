@@ -3,13 +3,13 @@
         <FormLabel :id="id" :required="required" v-if="label">{{ label }}</FormLabel>
 
         <div
-            class="relative bg-light border border-dark rounded-[5px] lg:text-xl font-light text-dark lg:placeholder:text-xl placeholder:font-light placeholder:text-gray-dark py-3 px-[0.875rem]">
+            class="relative bg-surface-container border border-outline-variant rounded-[5px] lg:text-xl font-light text-on-surface lg:placeholder:text-xl placeholder:font-light placeholder:text-on-surface-variant py-3 px-3.5">
             <input :id="inputId" :type="showPassword ? 'text' : 'password'" :placeholder="placeholder"
                 :value="modelValue" :required="required" @input="handleInput" @blur="handleBlur" @focus="handleFocus"
-                autocomplete="current-password" class="w-full bg-light outline-none" />
+                autocomplete="current-password" class="w-full bg-surface-container text-on-surface outline-none" />
 
             <button type="button"
-                class="flex justify-center itemsce absolute right-3 top-1/2 transform -translate-y-1/2 text-dark"
+                class="flex justify-center items-center absolute right-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant"
                 @click="togglePasswordVisibility"
                 :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
                 <Icon :name="showPassword ? 'tabler:eye-off' : 'tabler:eye'" class="w-6 h-6" />
