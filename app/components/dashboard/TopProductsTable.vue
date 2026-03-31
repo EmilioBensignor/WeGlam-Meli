@@ -8,7 +8,8 @@
     </div>
 
     <UTable :data="tableData" :columns="columns"
-      :ui="{ root: 'w-full', thead: 'py-2 px-4', th: 'text-sm text-on-surface dark:text-on-surface-variant font-medium', td: 'py-3.5 px-4 text-sm text-on-surface dark:text-on-surface' }">
+      :ui="{ root: 'w-full', thead: 'py-2 px-4', th: 'text-sm text-on-surface dark:text-on-surface-variant font-medium cursor-default', td: 'py-3.5 px-4 text-sm text-on-surface dark:text-on-surface', tr: 'hover:bg-surface-high/50 cursor-pointer transition-colors duration-300 first:hover:bg-transparent first:cursor-default' }"
+      @select="(e, row) => navigateTo(`${ROUTE_NAMES.PRODUCTOS}/${row.original.id}`)">
       <template #rank-cell="{ row }">
         <span class=" text-on-surface dark:text-on-surface-variant">{{ row.original.rank }}</span>
       </template>
@@ -19,7 +20,7 @@
             <img :src="row.original.imagen" :alt="row.original.nombre" class="w-full h-full object-cover">
           </div>
           <div class="flex flex-col items-start gap-1.5">
-            <NuxtLink :to="`${ROUTE_NAMES.PRODUCTOS}/${row.original.id}`" class="font-bold text-on-surface hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ row.original.nombre }}</NuxtLink>
+            <p class="font-bold text-on-surface">{{ row.original.nombre }}</p>
             <SharedStatusBadge v-if="row.original.badge" :status="row.original.badge" />
           </div>
         </div>

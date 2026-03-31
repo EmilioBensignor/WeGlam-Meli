@@ -1,6 +1,6 @@
-# Guía de Integración Backend — WeGlam Seller Analytics
+# Guia de Integracion Backend — WeGlam Seller Analytics
 
-Este documento describe todo lo que el equipo de backend necesita para conectar el frontend con datos reales. El frontend está 100% funcional con datos mock, listo para reemplazar por APIs reales.
+Este documento describe todo lo que el equipo de backend necesita para conectar el frontend con datos reales. El frontend esta 100% funcional con datos mock, listo para reemplazar por APIs reales.
 
 ---
 
@@ -24,7 +24,7 @@ API_KEY=api-key
 ```
 
 - `BACKEND_URL` y `API_KEY` se usan en `nuxt.config.ts` → `runtimeConfig` → disponibles solo en server routes
-- Supabase se configura automáticamente via `@nuxtjs/supabase`
+- Supabase se configura automaticamente via `@nuxtjs/supabase`
 
 ---
 
@@ -48,25 +48,27 @@ API_KEY=api-key
     "imagenes": [{ "url": "https://..." }],
     "thumbnail": "https://...",
     "publicaciones_activas": 5,
+    "publicaciones_pausadas": 2,
+    "sin_stock": 1,
     "disponibles": 100,
-    "revenue_30d": 45600,
-    "trend": 12
+    "revenue_30d": 45600
   }
 ]
 ```
 
-**Mapeo en frontend** (`app/composables/useProducts.js` línea 161):
+**Mapeo en frontend** (`app/composables/useProducts.js` linea 169):
 
 ```
-ml_id || id || sku       → id
-sku                      → sku
-titulo || title          → titulo
-categoria                → categoria (default: 'Sin categoría')
+ml_id || id || sku           → id
+sku                          → sku
+titulo || title              → titulo
+categoria                    → categoria (default: 'Sin categoría')
 imagenes[0].url || thumbnail → imagen
-publicaciones_activas    → publicacionesActivas (default: 1)
-disponibles ?? stock     → stockTotal (default: 0)
-revenue_30d              → revenue30d (default: 0)
-trend                    → trend (default: 0)
+publicaciones_activas        → publicacionesActivas (default: 1)
+publicaciones_pausadas       → publicacionesPausadas (default: 0)
+sin_stock                    → sinStock (default: 0)
+disponibles ?? stock         → stockTotal (default: 0)
+revenue_30d                  → revenue30d (default: 0)
 ```
 
 **Fallback:** Si el backend no responde, el frontend usa mock data hardcodeado.
@@ -97,7 +99,7 @@ trend                    → trend (default: 0)
   "imagenes": [{ "url": "https://..." }],
   "atributos": [{ "nombre": "Marca", "valor": "We Glam" }],
   "descripcion": "Serum facial con vitamina C...",
-  "garantia": "Garantía del vendedor: 30 días",
+  "garantia": "Garantia del vendedor: 30 dias",
   "permalink": "https://articulo.mercadolibre.com.ar/MLA-...",
   "actualizado_en": "2026-03-29T10:30:00Z"
 }
@@ -110,7 +112,7 @@ trend                    → trend (default: 0)
 ### 3.1 `GET /api/dashboard-stats`
 
 **Consumido por:** `app/composables/useDashboardStats.js`
-**Página:** Dashboard (`app/pages/index.vue`)
+**Pagina:** Dashboard (`app/pages/index.vue`)
 
 **Response esperada:**
 
@@ -171,7 +173,7 @@ trend                    → trend (default: 0)
       "imagen": "https://...",
       "unidades": 12,
       "revenue": 12400,
-      "badge": "Crítico"
+      "badge": "Critico"
     }
   ]
 }
@@ -180,18 +182,18 @@ trend                    → trend (default: 0)
 **Notas:**
 
 - `kpis[].value` es string formateado (el frontend lo muestra tal cual)
-- `kpis[].trend` es número (porcentaje de cambio)
+- `kpis[].trend` es numero (porcentaje de cambio)
 - `kpis[].color` debe ser: `"primary"`, `"success"`, `"warning"` o `"error"`
-- `salesData` son datos diarios para chart de línea (últimos 30 días)
+- `salesData` son datos diarios para chart de linea (ultimos 30 dias)
 - `adPerformanceData` son datos semanales para chart de barras
-- `badge` en productos: `"Alta demanda"`, `"Crítico"`, `"Bajo rendimiento"`
+- `badge` en productos: `"Alta demanda"`, `"Critico"`, `"Bajo rendimiento"`
 
 ---
 
 ### 3.2 `GET /api/products/:productId/publications`
 
 **Consumido por:** `app/composables/usePublications.js`
-**Página:** Lista de publicaciones (`app/pages/productos/[id]/index.vue`)
+**Pagina:** Lista de publicaciones (`app/pages/productos/[id]/index.vue`)
 
 **Response esperada:**
 
@@ -228,14 +230,14 @@ trend                    → trend (default: 0)
 - `condicion`: `"new"` | `"used"`
 - `conversion` es porcentaje (ej: 1.7 = 1.7%)
 - `healthScore` es 0-100
-- El frontend calcula `productInfo` (título, stock total, revenue total) desde este array
+- El frontend calcula `productInfo` (titulo, stock total, revenue total) desde este array
 
 ---
 
 ### 3.3 `GET /api/publications/:mlaId/metrics`
 
 **Consumido por:** `app/composables/usePublicationDetail.js`
-**Página:** Detalle de publicación (`app/pages/productos/[id]/[mla].vue`)
+**Pagina:** Detalle de publicacion (`app/pages/productos/[id]/[mla].vue`)
 
 **Response esperada:**
 
@@ -252,15 +254,15 @@ trend                    → trend (default: 0)
   "conversion_trend": -0.3,
   "profit": {
     "precioVenta": 14500,
-    "costoProducto": 5800,
+    "costoProducto": 6042,
     "comisionMeli": 1885,
     "comisionPorcentaje": 13,
     "envio": 1100,
     "impuestos": 1250,
     "publicidad": 400,
-    "gananciaNeta": 4065,
-    "margen": 28,
-    "roi": 1.7
+    "gananciaNeta": 3823,
+    "margen": 26.4,
+    "roi": 1.6
   },
   "ads": {
     "activa": true,
@@ -275,7 +277,7 @@ trend                    → trend (default: 0)
   "recommendations": [
     {
       "titulo": "Agregar fotos de uso",
-      "descripcion": "Publicar fotos del producto siendo aplicado mejora la conversión en un 12%.",
+      "descripcion": "Publicar fotos del producto siendo aplicado mejora la conversion en un 12%.",
       "prioridad": "alta",
       "icon": "i-tabler-camera-plus"
     }
@@ -286,22 +288,40 @@ trend                    → trend (default: 0)
 **Notas:**
 
 - `prioridad`: `"alta"` | `"media"` | `"baja"`
-- `ads.dailyData` son los últimos 14 días
-- `comisionPorcentaje` se muestra como "Comisión MeLi (X%)" — actualmente hardcodeado en 13%
+- `ads.dailyData` son los ultimos 14 dias
+- `comisionPorcentaje` se muestra como "Comision MeLi (X%)" — actualmente hardcodeado en 13%
 - `visitas_trend`, `ventas_trend`, `conversion_trend` — actualmente hardcodeados en KpiRow.vue
 
 ---
 
-## 4. Autenticación (Supabase)
+## 4. Regla de Negocio: Costo de Producto
+
+**Formula confirmada:** `costoProducto = precioVenta / 2.4`
+
+El costo de producto se calcula dividiendo el precio de venta por 2.4. Esta formula aplica a todos los productos WeGlam.
+
+**Ejemplo:**
+- Precio de venta: $14,500
+- Costo de producto: $14,500 / 2.4 = **$6,042**
+
+**Donde se usa:**
+- `usePublicationDetail.js` → `profit.costoProducto` (actualmente hardcodeado en $5,800, deberia ser dinamico)
+- `ProfitBreakdown.vue` → muestra el desglose de rentabilidad
+
+**Implementacion sugerida:** El backend puede calcular `costoProducto` con esta formula y enviarlo en el profit, o el frontend puede calcularlo localmente desde `precioVenta`.
+
+---
+
+## 5. Autenticacion (Supabase)
 
 ### Flujo
 
 1. **Login:** `client.auth.signInWithPassword({ email, password })`
 2. **Registro:** `client.auth.signUp({ email, password, options: { data: { display_name } } })`
-3. **Sesión:** Cookie con maxAge de 8 horas, auto-refresh habilitado
-4. **Middleware:** Supabase redirige a `/login` si no hay sesión (excepto rutas públicas)
+3. **Sesion:** Cookie con maxAge de 8 horas, auto-refresh habilitado
+4. **Middleware:** Supabase redirige a `/login` si no hay sesion (excepto rutas publicas)
 
-### Rutas públicas (sin auth)
+### Rutas publicas (sin auth)
 
 - `/login`
 - `/register`
@@ -309,52 +329,53 @@ trend                    → trend (default: 0)
 - `/forgot-password-confirmation`
 - `/reset-password`
 
-### Validación de password (registro)
+### Validacion de password (registro)
 
-- Mínimo 8 caracteres
-- Al menos 1 minúscula, 1 mayúscula, 1 dígito, 1 carácter especial
+- Minimo 8 caracteres
+- Al menos 1 minuscula, 1 mayuscula, 1 digito, 1 caracter especial
 - Check contra Have I Been Pwned API
 
-### Cache de sesión
+### Cache de sesion
 
 - Archivo: `app/composables/useSupabaseCache.js`
 - Key: `auth_session_cache` en localStorage
-- TTL: 90% del tiempo de expiración del token
+- TTL: 90% del tiempo de expiracion del token
 
 ---
 
-## 5. Datos Hardcodeados — Inventario
+## 6. Datos Hardcodeados — Inventario
 
 ### Mock data en composables (REEMPLAZAR por API)
 
-| Archivo                                                  | Datos mock                                                     | Endpoint que debe proveerlo                   |
-| -------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------- |
-| `app/composables/useDashboardStats.js`                   | KPIs, salesData, adPerformanceData, topProducts, worstProducts | `GET /api/dashboard-stats`                    |
-| `app/composables/useProducts.js` líneas 1-90             | Array de 8 productos mock (fallback)                           | `GET /api/sync-products` (ya existe)          |
-| `app/composables/usePublications.js` líneas 1-295        | mockPublicationsByProduct + generateDefaultMock                | `GET /api/products/:id/publications`          |
-| `app/composables/usePublicationDetail.js` líneas 1-70    | mockMetrics (profit, ads, recommendations)                     | `GET /api/publications/:mlaId/metrics`        |
-| `app/composables/usePublicationDetail.js` líneas 113-139 | Fallback publication data                                      | `GET /api/sync-id-products/:mlId` (ya existe) |
+| Archivo | Datos mock | Endpoint que debe proveerlo |
+|---------|-----------|---------------------------|
+| `app/composables/useDashboardStats.js` | KPIs, salesData, adPerformanceData, topProducts, worstProducts | `GET /api/dashboard-stats` |
+| `app/composables/useProducts.js` lineas 1-98 | Array de 8 productos mock (fallback) | `GET /api/sync-products` (ya existe) |
+| `app/composables/usePublications.js` lineas 1-295 | mockPublicationsByProduct + generateDefaultMock | `GET /api/products/:id/publications` |
+| `app/composables/usePublicationDetail.js` lineas 1-70 | mockMetrics (profit, ads, recommendations) | `GET /api/publications/:mlaId/metrics` |
+| `app/composables/usePublicationDetail.js` lineas 112-139 | Fallback publication data | `GET /api/sync-id-products/:mlId` (ya existe) |
 
-### Valores hardcodeados en componentes (HACER DINÁMICOS)
+### Valores hardcodeados en componentes (HACER DINAMICOS)
 
-| Archivo                                          | Línea | Valor hardcodeado                  | Solución                                  |
-| ------------------------------------------------ | ----- | ---------------------------------- | ----------------------------------------- |
-| `app/components/publication/KpiRow.vue`          | 7     | `:value="8"` (trend visitas)       | Recibir de metrics API `visitas_trend`    |
-| `app/components/publication/KpiRow.vue`          | 15    | `:value="15"` (trend ventas)       | Recibir de metrics API `ventas_trend`     |
-| `app/components/publication/KpiRow.vue`          | 28    | `:value="-0.3"` (trend conversión) | Recibir de metrics API `conversion_trend` |
-| `app/components/publication/ProfitBreakdown.vue` | 20    | `"Comisión MeLi (13%)"`            | Recibir `comisionPorcentaje` de profit    |
+| Archivo | Linea | Valor hardcodeado | Solucion |
+|---------|-------|-------------------|----------|
+| `app/components/publication/KpiRow.vue` | 7 | `:value="8"` (trend visitas) | Recibir de metrics API `visitas_trend` |
+| `app/components/publication/KpiRow.vue` | 15 | `:value="15"` (trend ventas) | Recibir de metrics API `ventas_trend` |
+| `app/components/publication/KpiRow.vue` | 28 | `:value="-0.3"` (trend conversion) | Recibir de metrics API `conversion_trend` |
+| `app/components/publication/ProfitBreakdown.vue` | 20 | `"Comision MeLi (13%)"` | Recibir `comisionPorcentaje` de profit |
+| `app/composables/usePublicationDetail.js` | 9 | `costoProducto: 5800` | Calcular como `precioVenta / 2.4` |
 
 ### Thresholds (se pueden dejar hardcodeados o hacerlos configurables)
 
-| Archivo                                      | Concepto         | Valores                                                             |
-| -------------------------------------------- | ---------------- | ------------------------------------------------------------------- |
-| `app/composables/useHealthScore.js`          | Score labels     | >= 80: Saludable, >= 60: Aceptable, >= 40: Mejorable, < 40: Crítico |
-| `app/composables/useHealthScore.js`          | Título óptimo    | 50-120 caracteres                                                   |
-| `app/components/publication/HealthScore.vue` | Colores de score | >= 70: verde, >= 40: amarillo, < 40: rojo                           |
+| Archivo | Concepto | Valores |
+|---------|----------|---------|
+| `app/composables/useHealthScore.js` | Score labels | >= 80: Saludable, >= 60: Aceptable, >= 40: Mejorable, < 40: Critico |
+| `app/composables/useHealthScore.js` | Titulo optimo | 50-120 caracteres |
+| `app/components/publication/HealthScore.vue` | Colores de score | >= 70: verde, >= 40: amarillo, < 40: rojo |
 
 ---
 
-## 6. Guía de Integración — Orden Sugerido
+## 7. Guia de Integracion — Orden Sugerido
 
 ### Paso 1: Dashboard Stats
 
@@ -372,32 +393,34 @@ trend                    → trend (default: 0)
    - En `fetchPublications()`, reemplazar mock por `$fetch`
    - Mantener `generateDefaultMock()` como fallback
 
-### Paso 3: Métricas de publicación
+### Paso 3: Metricas de publicacion
 
 1. Crear endpoint `GET /api/publications/:mlaId/metrics` en el backend
 2. Crear server route proxy
 3. Modificar `app/composables/usePublicationDetail.js`:
    - Fetch metrics reales
    - Pasar trends a KpiRow como props (requiere modificar KpiRow.vue)
+   - Calcular `costoProducto = precioVenta / 2.4` si el backend no lo envia
 
 ### Paso 4: Limpieza
 
 1. Eliminar mock arrays de los composables (o dejar como fallback)
-2. Actualizar `comisionPorcentaje` dinámico en ProfitBreakdown
-3. Conectar trends dinámicos en KpiRow
+2. Actualizar `comisionPorcentaje` dinamico en ProfitBreakdown
+3. Conectar trends dinamicos en KpiRow
+4. Aplicar formula de costo (`precio / 2.4`) en el calculo de profit
 
 ---
 
-## 7. Notas para integración con Claude Code
+## 8. Notas para integracion con Claude Code
 
 ### Archivos clave a modificar
 
 ```
 app/composables/useDashboardStats.js    — Reemplazar mocks por fetch
 app/composables/usePublications.js      — Reemplazar mocks por fetch
-app/composables/usePublicationDetail.js — Reemplazar mocks por fetch
-app/components/publication/KpiRow.vue   — Hacer trends dinámicos (props)
-app/components/publication/ProfitBreakdown.vue — comisión dinámica
+app/composables/usePublicationDetail.js — Reemplazar mocks por fetch + formula costo
+app/components/publication/KpiRow.vue   — Hacer trends dinamicos (props)
+app/components/publication/ProfitBreakdown.vue — comision dinamica
 ```
 
 ### Server routes a crear (proxies)
@@ -408,7 +431,7 @@ server/api/products/[id]/publications.js
 server/api/publications/[mlaId]/metrics.js
 ```
 
-### Patrón de server route (copiar de los existentes)
+### Patron de server route (copiar de los existentes)
 
 ```javascript
 export default defineEventHandler(async (event) => {
@@ -420,23 +443,24 @@ export default defineEventHandler(async (event) => {
 });
 ```
 
-### Cómo testear
+### Como testear
 
 1. `npm run dev`
-2. Verificar que cada página carga datos del backend
+2. Verificar que cada pagina carga datos del backend
 3. Desconectar backend → verificar que el fallback mock funciona
-4. Probar en dark y light mode (los estilos no deberían cambiar)
+4. Probar en dark y light mode (los estilos no deberian cambiar)
 
-### Qué borrar después de integrar
+### Que borrar despues de integrar
 
-- `mockProducts` en `useProducts.js` (líneas 1-90) — o dejar como fallback
-- `mockPublicationsByProduct` y `generateDefaultMock` en `usePublications.js` (líneas 1-295)
-- `mockMetrics` en `usePublicationDetail.js` (líneas 1-70)
+- `mockProducts` en `useProducts.js` (lineas 1-98) — o dejar como fallback
+- `mockPublicationsByProduct` y `generateDefaultMock` en `usePublications.js` (lineas 1-295)
+- `mockMetrics` en `usePublicationDetail.js` (lineas 1-70)
 - Mocks en `useDashboardStats.js` — todo el contenido de los refs
 
 ### Formatos importantes
 
 - Moneda: ARS (Argentine Peso), formateado con `formatCurrency()` y `formatRevenue()`
 - Timestamps: ISO 8601
-- Porcentajes: número decimal (ej: 2.4 = 2.4%, no 0.024)
-- Trends: número con signo (positivo = mejora, negativo = caída)
+- Porcentajes: numero decimal (ej: 2.4 = 2.4%, no 0.024)
+- Trends: numero con signo (positivo = mejora, negativo = caida)
+- Costo de producto: `precioVenta / 2.4`

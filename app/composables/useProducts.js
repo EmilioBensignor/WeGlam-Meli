@@ -6,9 +6,10 @@ const mockProducts = [
     categoria: 'Skincare',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 12,
+    publicacionesPausadas: 2,
+    sinStock: 1,
     stockTotal: 145,
     revenue30d: 4200,
-    trend: 12,
   },
   {
     id: 'prod-2',
@@ -17,9 +18,10 @@ const mockProducts = [
     categoria: 'Skincare',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 5,
+    publicacionesPausadas: 3,
+    sinStock: 4,
     stockTotal: 0,
-    revenue30d: 1800,
-    trend: -8,
+    revenue30d: 0,
   },
   {
     id: 'prod-3',
@@ -28,9 +30,10 @@ const mockProducts = [
     categoria: 'Maquillaje',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 8,
+    publicacionesPausadas: 0,
+    sinStock: 0,
     stockTotal: 52,
     revenue30d: 3100,
-    trend: 0,
   },
   {
     id: 'prod-4',
@@ -39,9 +42,10 @@ const mockProducts = [
     categoria: 'Cuidado Capilar',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 15,
+    publicacionesPausadas: 1,
+    sinStock: 0,
     stockTotal: 88,
     revenue30d: 5500,
-    trend: 24,
   },
   {
     id: 'prod-5',
@@ -50,9 +54,10 @@ const mockProducts = [
     categoria: 'Skincare',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 4,
+    publicacionesPausadas: 0,
+    sinStock: 0,
     stockTotal: 210,
     revenue30d: 2200,
-    trend: 5,
   },
   {
     id: 'prod-6',
@@ -61,9 +66,10 @@ const mockProducts = [
     categoria: 'Skincare',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 9,
+    publicacionesPausadas: 2,
+    sinStock: 1,
     stockTotal: 64,
     revenue30d: 6700,
-    trend: 18,
   },
   {
     id: 'prod-7',
@@ -72,9 +78,10 @@ const mockProducts = [
     categoria: 'Skincare',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 6,
+    publicacionesPausadas: 1,
+    sinStock: 0,
     stockTotal: 31,
     revenue30d: 2900,
-    trend: 7,
   },
   {
     id: 'prod-8',
@@ -83,9 +90,10 @@ const mockProducts = [
     categoria: 'Maquillaje',
     imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
     publicacionesActivas: 10,
+    publicacionesPausadas: 0,
+    sinStock: 5,
     stockTotal: 0,
     revenue30d: 4800,
-    trend: -3,
   },
 ]
 
@@ -165,9 +173,10 @@ export function useProducts() {
         categoria: item.categoria || 'Sin categoría',
         imagen: item.imagenes?.[0]?.url || item.thumbnail || '',
         publicacionesActivas: item.publicaciones_activas || 1,
+        publicacionesPausadas: item.publicaciones_pausadas || 0,
+        sinStock: item.sin_stock || 0,
         stockTotal: item.disponibles ?? item.stock ?? 0,
         revenue30d: item.revenue_30d || 0,
-        trend: item.trend || 0,
       }))
     } catch (e) {
       console.warn('Backend no disponible, usando mock data:', e.message)
