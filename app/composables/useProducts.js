@@ -1,101 +1,4 @@
-const mockProducts = [
-  {
-    id: 'prod-1',
-    sku: 'WG-SER-001',
-    titulo: 'Serum Facial Vitamina C Premium',
-    categoria: 'Skincare',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 12,
-    publicacionesPausadas: 2,
-    sinStock: 1,
-    stockTotal: 145,
-    revenue30d: 4200,
-  },
-  {
-    id: 'prod-2',
-    sku: 'WG-CRM-002',
-    titulo: 'Crema Hidratante Ácido Hialurónico',
-    categoria: 'Skincare',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 5,
-    publicacionesPausadas: 3,
-    sinStock: 4,
-    stockTotal: 0,
-    revenue30d: 0,
-  },
-  {
-    id: 'prod-3',
-    sku: 'WG-PAL-003',
-    titulo: 'Paleta de Sombras Nude Collection',
-    categoria: 'Maquillaje',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 8,
-    publicacionesPausadas: 0,
-    sinStock: 0,
-    stockTotal: 52,
-    revenue30d: 3100,
-  },
-  {
-    id: 'prod-4',
-    sku: 'WG-OIL-004',
-    titulo: 'Aceite de Argán Reparador',
-    categoria: 'Cuidado Capilar',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 15,
-    publicacionesPausadas: 1,
-    sinStock: 0,
-    stockTotal: 88,
-    revenue30d: 5500,
-  },
-  {
-    id: 'prod-5',
-    sku: 'WG-CLN-005',
-    titulo: 'Limpiador Espumoso Gentil',
-    categoria: 'Skincare',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 4,
-    publicacionesPausadas: 0,
-    sinStock: 0,
-    stockTotal: 210,
-    revenue30d: 2200,
-  },
-  {
-    id: 'prod-6',
-    sku: 'WG-SPF-006',
-    titulo: 'Protector Solar SPF 50+ Mattifying',
-    categoria: 'Skincare',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 9,
-    publicacionesPausadas: 2,
-    sinStock: 1,
-    stockTotal: 64,
-    revenue30d: 6700,
-  },
-  {
-    id: 'prod-7',
-    sku: 'WG-MSK-007',
-    titulo: 'Mascarilla Nocturna Reparadora',
-    categoria: 'Skincare',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 6,
-    publicacionesPausadas: 1,
-    sinStock: 0,
-    stockTotal: 31,
-    revenue30d: 2900,
-  },
-  {
-    id: 'prod-8',
-    sku: 'WG-LIP-008',
-    titulo: 'Labial Matte Larga Duración',
-    categoria: 'Maquillaje',
-    imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-    publicacionesActivas: 10,
-    publicacionesPausadas: 0,
-    sinStock: 5,
-    stockTotal: 0,
-    revenue30d: 4800,
-  },
-]
+// const mockProducts = [...]
 
 export function useProducts() {
   const products = ref([])
@@ -180,8 +83,7 @@ export function useProducts() {
         trend: item.trend ?? 0,
       }))
     } catch (e) {
-      console.warn('Backend no disponible, usando mock data:', e.message)
-      products.value = mockProducts
+      error.value = e.message
     } finally {
       loading.value = false
     }
