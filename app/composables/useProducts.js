@@ -170,13 +170,14 @@ export function useProducts() {
         id: item.ml_id || item.id || item.sku,
         sku: item.sku || '',
         titulo: item.titulo || item.title || '',
-        categoria: item.categoria || 'Sin categoría',
+        categoria: item.categoria || item.categoria_id || 'Sin categoría',
         imagen: item.imagenes?.[0]?.url || item.thumbnail || '',
-        publicacionesActivas: item.publicaciones_activas || 1,
-        publicacionesPausadas: item.publicaciones_pausadas || 0,
+        publicacionesActivas: item.publicaciones_activas ?? 0,
+        publicacionesPausadas: item.publicaciones_pausadas ?? 0,
         sinStock: item.sin_stock || 0,
         stockTotal: item.disponibles ?? item.stock ?? 0,
         revenue30d: item.revenue_30d || 0,
+        trend: item.trend ?? 0,
       }))
     } catch (e) {
       console.warn('Backend no disponible, usando mock data:', e.message)

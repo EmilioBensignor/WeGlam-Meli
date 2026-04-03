@@ -352,11 +352,12 @@ export function usePublications(productId) {
     loading.value = true
     error.value = null
     try {
-      // TODO: Reemplazar con fetch real cuando el backend exponga /api/products/:id/publications
-      await new Promise(resolve => setTimeout(resolve, 400))
+      const id = toValue(productId)
+      const data = await $fetch(`/api/products/${id}/publications`)
+      publications.value = data
+    } catch (e) {
       const id = toValue(productId)
       publications.value = mockPublicationsByProduct[id] || generateDefaultMock(id)
-    } catch (e) {
       error.value = e.message || 'Error al cargar publicaciones'
     } finally {
       loading.value = false

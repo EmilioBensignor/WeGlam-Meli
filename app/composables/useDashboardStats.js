@@ -116,8 +116,12 @@ export function useDashboardStats() {
     loading.value = true
     error.value = null
     try {
-      // TODO: Reemplazar con fetch real cuando el backend exponga /api/dashboard-stats
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const data = await $fetch('/api/dashboard-stats')
+      if (data.kpis) kpis.value = data.kpis
+      if (data.salesData) salesData.value = data.salesData
+      if (data.adPerformanceData) adPerformanceData.value = data.adPerformanceData
+      if (data.topProducts) topProducts.value = data.topProducts
+      if (data.worstProducts) worstProducts.value = data.worstProducts
     } catch (e) {
       error.value = e.message || 'Error al cargar estadísticas'
     } finally {

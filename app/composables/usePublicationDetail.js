@@ -138,7 +138,15 @@ export function usePublicationDetail(productId, mlaId) {
         }
       }
 
-      metrics.value = mockMetrics
+      try {
+        const metricsData = await $fetch(`/api/publications/${id}/metrics`)
+        metrics.value = metricsData
+        if (publication.value && metricsData.healthScore != null) {
+          publication.value = { ...publication.value, healthScore: metricsData.healthScore }
+        }
+      } catch {
+        metrics.value = mockMetrics
+      }
     } catch (e) {
       error.value = e.message || 'Error al cargar detalle'
     } finally {
