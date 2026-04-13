@@ -17,7 +17,7 @@
         <span class="font-bold text-red-600 dark:text-red-400">-{{ formatCurrency(profit.costoProducto) }}</span>
       </div>
       <div class="flex justify-between items-center py-2">
-        <span class="text-on-surface">Comisión MeLi (13%)</span>
+        <span class="text-on-surface">Comisión MeLi{{ profit.porcentajeComision != null ? ` (${profit.porcentajeComision}%)` : '' }}</span>
         <span class="font-bold text-on-surface">-{{ formatCurrency(profit.comisionMeli) }}</span>
       </div>
       <div class="flex justify-between items-center py-2">

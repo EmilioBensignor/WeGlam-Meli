@@ -1,5 +1,3 @@
-// const mockProducts = [...]
-
 export function useProducts() {
   const products = ref([])
   const loading = ref(false)

@@ -4,7 +4,7 @@
       <p class="text-on-surface-variant">Visitas 30d</p>
       <div class="flex items-end justify-between">
         <span class="text-2xl font-bold text-on-surface">{{ formatNumber(metrics.visitas30d) }}</span>
-        <SharedTrendBadge :value="8" size="md" />
+        <SharedTrendBadge v-if="metrics.tendenciaVisitas30d != null" :value="metrics.tendenciaVisitas30d" size="md" />
       </div>
     </div>
 
@@ -12,7 +12,7 @@
       <p class="text-on-surface-variant">Ventas 30d</p>
       <div class="flex items-end justify-between">
         <span class="text-2xl font-bold text-on-surface">{{ formatNumber(metrics.ventas30d) }}</span>
-        <SharedTrendBadge :value="15" size="md" />
+        <SharedTrendBadge v-if="metrics.tendenciaVentas30d != null" :value="metrics.tendenciaVentas30d" size="md" />
       </div>
     </div>
 
@@ -25,7 +25,7 @@
       <p class="text-on-surface-variant">Conversión</p>
       <div class="flex items-end justify-between">
         <span class="text-2xl font-bold text-on-surface">{{ metrics.conversion }}%</span>
-        <SharedTrendBadge :value="-0.3" size="md" />
+        <SharedTrendBadge v-if="metrics.tendenciaConversion != null" :value="metrics.tendenciaConversion" size="md" />
       </div>
     </div>
 

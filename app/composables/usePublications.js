@@ -1,6 +1,3 @@
-// const mockPublicationsByProduct = {...}
-// function generateDefaultMock(productId) {...}
-
 export function usePublications(productId) {
   const publications = ref([])
   const loading = ref(false)

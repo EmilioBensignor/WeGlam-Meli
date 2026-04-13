@@ -1,5 +1,3 @@
-// const mockMetrics = {...}
-
 export function usePublicationDetail(productId, mlaId) {
   const publication = ref(null)
   const metrics = ref(null)
@@ -38,45 +36,14 @@ export function usePublicationDetail(productId, mlaId) {
           garantia: baseData.garantia || '',
           permalink: baseData.permalink || '',
           actualizadoEn: baseData.actualizado_en || '',
-          healthScore: mockMetrics.healthScore,
-        }
-      } else {
-        publication.value = {
-          mlaId: id,
-          productId: toValue(productId),
-          titulo: 'Serum Facial Vitamina C Premium 30ml',
-          precio: 14500,
-          precioOriginal: 18000,
-          moneda: 'ARS',
-          stock: 156,
-          stockMax: 200,
-          vendidos: 245,
-          estado: 'active',
-          condicion: 'new',
-          envioGratis: true,
-          imagen: 'https://http2.mlstatic.com/D_NQ_NP_2X_810651-MLA80569129498_112024-F.webp',
-          imagenes: [],
-          atributos: [
-            { nombre: 'Marca', valor: 'We Glam' },
-            { nombre: 'Contenido', valor: '30ml' },
-            { nombre: 'Tipo de piel', valor: 'Todo tipo' },
-          ],
-          descripcion: 'Serum facial con vitamina C pura al 15%...',
-          garantia: 'Garantía del vendedor: 30 días',
-          permalink: 'https://articulo.mercadolibre.com.ar/MLA-1402837201',
-          actualizadoEn: '2026-03-27T10:30:00Z',
-          healthScore: mockMetrics.healthScore,
+          healthScore: 0,
         }
       }
 
-      try {
-        const metricsData = await $fetch(`/api/publications/${id}/metrics`)
-        metrics.value = metricsData
-        if (publication.value && metricsData.healthScore != null) {
-          publication.value = { ...publication.value, healthScore: metricsData.healthScore }
-        }
-      } catch {
-        metrics.value = mockMetrics
+      const metricsData = await $fetch(`/api/publications/${id}/metrics`)
+      metrics.value = metricsData
+      if (publication.value && metricsData.healthScore != null) {
+        publication.value = { ...publication.value, healthScore: metricsData.healthScore }
       }
     } catch (e) {
       error.value = e.message || 'Error al cargar detalle'
