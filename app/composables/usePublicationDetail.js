@@ -24,7 +24,7 @@ export function usePublicationDetail(productId, mlaId) {
           precioOriginal: baseData.precio_original || null,
           moneda: baseData.moneda || 'ARS',
           stock: baseData.disponibles || 0,
-          stockMax: 200,
+          stockMax: baseData.disponibles || 0,
           vendidos: baseData.vendidos || 0,
           estado: baseData.estado || 'active',
           condicion: baseData.condicion || 'new',

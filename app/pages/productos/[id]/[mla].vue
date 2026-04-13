@@ -50,7 +50,7 @@ const productId = computed(() => route.params.id)
 const mlaId = computed(() => route.params.mla)
 
 const { publication, metrics, loading, fetchDetail } = usePublicationDetail(productId, mlaId)
-const { criteria, totalScore, label: healthLabel } = useHealthScore(publication)
+const { criteria, totalScore, label: healthLabel } = useHealthScore(publication, metrics)
 
 onMounted(() => {
   fetchDetail()
