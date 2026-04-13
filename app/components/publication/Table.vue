@@ -56,6 +56,10 @@
         <span class="text-on-surface">{{ row.original.healthScore }}</span>
       </div>
     </template>
+
+    <template #listingType-cell="{ row }">
+      <span class="text-on-surface-variant text-xs">{{ row.original.listingType || '-' }}</span>
+    </template>
   </UTable>
 
   <div v-else class="text-center py-20">
@@ -83,6 +87,7 @@ const columns = [
   { accessorKey: 'ventas30d', header: 'Ventas 30d' },
   { accessorKey: 'conversion', header: 'Conv. %' },
   { accessorKey: 'estado', header: 'Estado' },
+  { accessorKey: 'listingType', header: 'Tipo' },
   { accessorKey: 'healthScore', header: 'Salud' },
 ]
 

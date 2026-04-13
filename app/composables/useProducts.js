@@ -14,9 +14,11 @@ export function useProducts() {
   const pageSize = ref(10)
 
   const categories = computed(() => {
-    const cats = [...new Set(products.value.map(p => p.categoria))]
+    const cats = [...new Set(products.value.map(p => p.categoria).filter(Boolean))]
     return cats.sort()
   })
+
+  const conCatalogo = computed(() => products.value.filter(p => p.tipo === 'catalogo').length)
 
   const filteredProducts = computed(() => {
     let result = [...products.value]
@@ -24,7 +26,9 @@ export function useProducts() {
     if (searchQuery.value.trim()) {
       const q = searchQuery.value.trim().toLowerCase()
       result = result.filter(p =>
-        p.titulo.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)
+        p.titulo.toLowerCase().includes(q) ||
+        p.id.toLowerCase().includes(q) ||
+        p.mlId.toLowerCase().includes(q)
       )
     }
 
@@ -70,16 +74,24 @@ export function useProducts() {
     try {
       const res = await $fetch('/api/sync-products')
       products.value = res.map((item) => ({
-        id: item.ml_id || item.id || item.sku,
-        sku: item.sku || '',
-        titulo: item.titulo || item.title || '',
-        categoria: item.categoria || item.categoria_id || 'Sin categoría',
-        imagen: item.imagenes?.[0]?.url || item.thumbnail || '',
+        id: item.product_id,
+        mlId: item.ml_id || '',
+        tipo: item.tipo || 'standalone',
+        titulo: item.titulo || '',
+        categoria: item.categoria || '',
+        imagen: item.thumbnail || item.imagenes?.[0]?.url || '',
+        publicaciones: item.publicaciones ?? 1,
         publicacionesActivas: item.publicaciones_activas ?? 0,
         publicacionesPausadas: item.publicaciones_pausadas ?? 0,
-        sinStock: item.sin_stock || 0,
-        stockTotal: item.disponibles ?? item.stock ?? 0,
-        revenue30d: item.revenue_30d || 0,
+        sinStock: item.sin_stock ?? 0,
+        stockTotal: item.disponibles ?? 0,
+        precioMin: item.precio_min ?? 0,
+        precioMax: item.precio_max ?? 0,
+        healthScore: item.healthScore ?? 0,
+        revenue30d: item.facturacion_30d ?? 0,
+        ventas30d: item.ventas_30d ?? 0,
+        visitas30d: item.visitas_30d ?? 0,
+        preguntasSinResponder: item.preguntas_sin_responder ?? 0,
         trend: item.trend ?? 0,
       }))
     } catch (e) {
@@ -103,6 +115,7 @@ export function useProducts() {
     pageSize,
     totalPages,
     categories,
+    conCatalogo,
     fetchProducts,
   }
 }

@@ -19,7 +19,13 @@
 
     <div class="flex-1 flex flex-col gap-3 min-w-0">
       <div class="flex justify-between items-start">
-        <UBadge :label="product.categoria" color="primary" variant="solid" size="md" class="text-black" />
+        <div class="flex items-center gap-2">
+          <UBadge v-if="product.tipo === 'catalogo'" color="primary" variant="subtle" size="xs">
+            <UIcon name="i-tabler-stack-2" class="mr-1 size-3" />
+            {{ product.publicaciones }} pub.
+          </UBadge>
+          <UBadge v-else color="neutral" variant="subtle" size="xs">Individual</UBadge>
+        </div>
         <span class="text-sm font-semibold px-2 py-0.5 rounded flex items-center gap-1" :class="revenueClass">
           {{ formatRevenue(product.revenue30d) }}
         </span>
@@ -30,24 +36,42 @@
       </HeadingH1>
 
       <div class="border-t border-outline-variant/50 pt-3 flex flex-col gap-2">
-        <p class="text-xs font-medium text-on-surface-variant uppercase tracking-wide">Publicaciones</p>
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-wide">Publicaciones</p>
+          <span class="text-xs font-semibold text-on-surface">
+            <template v-if="product.precioMin !== product.precioMax">
+              {{ formatCurrency(product.precioMin) }} - {{ formatCurrency(product.precioMax) }}
+            </template>
+            <template v-else>{{ formatCurrency(product.precioMin) }}</template>
+          </span>
+        </div>
         <div class="grid grid-cols-3 gap-2">
-        <div>
-          <p class="text-sm text-on-surface-variant">Activas</p>
-          <p class="font-semibold text-green-600 dark:text-green-400">{{ product.publicacionesActivas }}</p>
+          <div>
+            <p class="text-sm text-on-surface-variant">Activas</p>
+            <p class="font-semibold text-green-600 dark:text-green-400">{{ product.publicacionesActivas }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-on-surface-variant">Pausadas</p>
+            <p class="font-semibold" :class="product.publicacionesPausadas > 0 ? 'text-yellow-600 dark:text-yellow-400' : 'text-on-surface-variant'">
+              {{ product.publicacionesPausadas }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-on-surface-variant">Sin stock</p>
+            <p class="font-semibold" :class="product.sinStock > 0 ? 'text-red-600 dark:text-red-400' : 'text-on-surface-variant'">
+              {{ product.sinStock }}
+            </p>
+          </div>
         </div>
-        <div>
-          <p class="text-sm text-on-surface-variant">Pausadas</p>
-          <p class="font-semibold" :class="product.publicacionesPausadas > 0 ? 'text-yellow-600 dark:text-yellow-400' : 'text-on-surface-variant'">
-            {{ product.publicacionesPausadas }}
-          </p>
-        </div>
-        <div>
-          <p class="text-sm text-on-surface-variant">Sin stock</p>
-          <p class="font-semibold" :class="product.sinStock > 0 ? 'text-red-600 dark:text-red-400' : 'text-on-surface-variant'">
-            {{ product.sinStock }}
-          </p>
-        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex-1 h-1.5 rounded-full bg-surface-low overflow-hidden">
+            <div
+              class="h-full rounded-full transition-all"
+              :class="healthBarColor"
+              :style="{ width: `${product.healthScore}%` }"
+            />
+          </div>
+          <span class="text-xs text-on-surface-variant w-6 text-right">{{ product.healthScore }}</span>
         </div>
       </div>
     </div>
@@ -68,5 +92,12 @@ const revenueClass = computed(() => {
   if (r > 3000) return 'text-green-600 bg-green-200 dark:text-green-400 dark:bg-green-400/15'
   if (r > 0) return 'text-on-surface-variant bg-surface-highest'
   return 'text-red-600 bg-red-200 dark:text-red-400 dark:bg-red-400/15'
+})
+
+const healthBarColor = computed(() => {
+  const s = props.product.healthScore
+  if (s >= 70) return 'bg-green-500'
+  if (s >= 40) return 'bg-yellow-500'
+  return 'bg-red-500'
 })
 </script>
