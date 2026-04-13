@@ -7,6 +7,7 @@ export function useDashboardStats() {
   const adPerformanceData = ref([])
   const topProducts = ref([])
   const worstProducts = ref([])
+  const reputation = ref(null)
 
   async function fetchStats() {
     loading.value = true
@@ -18,6 +19,7 @@ export function useDashboardStats() {
       if (data.adPerformanceData) adPerformanceData.value = data.adPerformanceData
       if (data.topProducts) topProducts.value = data.topProducts
       if (data.worstProducts) worstProducts.value = data.worstProducts
+      if (data.reputation) reputation.value = data.reputation
     } catch (e) {
       error.value = e.message || 'Error al cargar estadísticas'
     } finally {
@@ -33,6 +35,7 @@ export function useDashboardStats() {
     adPerformanceData: readonly(adPerformanceData),
     topProducts: readonly(topProducts),
     worstProducts: readonly(worstProducts),
+    reputation: readonly(reputation),
     fetchStats,
   }
 }

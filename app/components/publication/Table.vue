@@ -26,7 +26,12 @@
     </template>
 
     <template #precio-cell="{ row }">
-      <span class="font-semibold text-on-surface">{{ formatCurrency(row.original.precio) }}</span>
+      <div class="flex flex-col">
+        <span class="font-semibold text-on-surface">{{ formatCurrency(row.original.precio) }}</span>
+        <span v-if="row.original.precioOriginal" class="text-xs text-on-surface-variant line-through">
+          {{ formatCurrency(row.original.precioOriginal) }}
+        </span>
+      </div>
     </template>
 
     <template #stock-cell="{ row }">
