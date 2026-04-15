@@ -5,7 +5,7 @@
         <Icon name="i-tabler-chart-dots" class="text-green-600 dark:text-green-400" size="24" />
         Salud de la Publicación
       </HeadingH1>
-      <span class="text-sm font-bold rounded-full px-3 py-1"
+      <span class="text-base font-bold rounded-full px-3 py-1"
         :class="score >= 70 ? 'bg-green-400/10 text-green-600 dark:text-green-400' : score >= 40 ? 'bg-yellow-400/10 text-yellow-600 dark:text-yellow-400' : 'bg-red-400/10 text-red-600 dark:text-red-400'">
         Score: {{ score }}/100
       </span>
@@ -23,8 +23,7 @@
             </svg>
             <div class="flex flex-col items-center gap-1 absolute">
               <span class="text-4xl font-black text-on-surface">{{ score }}</span>
-              <span class="text-sm font-medium"
-                :class="score >= 70 ? 'text-green-600 dark:text-green-400' : score >= 40 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400'">
+              <span class="text-base font-medium text-on-surface">
                 {{ label }}
               </span>
             </div>
@@ -32,7 +31,7 @@
         </div>
         <div class="flex flex-col gap-4">
           <div v-for="c in criteria" :key="c.nombre" class="flex flex-col gap-2">
-            <div class="flex justify-between text-sm text-on-surface">
+            <div class="flex justify-between text-base text-on-surface">
               <span class="flex items-center gap-2">
                 <Icon :name="c.icon" class="size-5" />
                 {{ c.nombre }}
@@ -65,18 +64,16 @@ const dashOffset = computed(() => {
   return circumference - (circumference * progress)
 })
 
+import { getHealthColor, getHealthBgColor } from '~/constants/HEALTH_THRESHOLDS.js'
+
 function scoreColor(score, max) {
   const pct = (score / max) * 100
-  if (pct >= 80) return 'text-green-600 dark:text-green-400'
-  if (pct >= 50) return 'text-yellow-600 dark:text-yellow-400'
-  return 'text-red-600 dark:text-red-400'
+  return getHealthColor(pct)
 }
 
 function barColor(score, max) {
   const pct = (score / max) * 100
-  if (pct >= 80) return 'bg-green-400'
-  if (pct >= 50) return 'bg-yellow-400'
-  return 'bg-red-400'
+  return getHealthBgColor(pct)
 }
 
 function barWidth(score, max) {

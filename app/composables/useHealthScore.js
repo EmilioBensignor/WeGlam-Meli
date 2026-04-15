@@ -16,8 +16,7 @@ export function useHealthScore(publication, metrics) {
 
   const label = computed(() => {
     const s = totalScore.value
-    if (s >= 80) return 'Saludable'
-    if (s >= 60) return 'Aceptable'
+    if (s >= 70) return 'Saludable'
     if (s >= 40) return 'Mejorable'
     return 'Crítico'
   })

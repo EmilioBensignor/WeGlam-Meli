@@ -11,7 +11,7 @@ Dashboard de analytics para sellers de Mercado Libre (marca WeGlam, cosmetics). 
 - **Auth**: @nuxtjs/supabase
 - **Iconos**: @nuxt/icon — Tabler (`i-tabler-*`). Nuxt UI usa Lucide internamente (no tocar)
 - **Fonts**: @nuxt/fonts — Outfit (sans)
-- **Imágenes**: @nuxt/image
+- **Imágenes**: @nuxt/image — usar `<NuxtImg>` con `loading="lazy"` (NO `<img>` raw)
 
 ## Comandos
 
@@ -23,12 +23,12 @@ Dashboard de analytics para sellers de Mercado Libre (marca WeGlam, cosmetics). 
 
 ```
 app/
-  assets/css/main.css       — Design tokens @theme, overrides light/dark
+  assets/css/main.css       — Design tokens @theme, overrides light/dark, scrollbar
   app.config.ts             — Colores semánticos Nuxt UI
   app.vue                   — Root: NuxtLayout + NuxtPage + NotificationContainer
   error.vue                 — Página de error 404
   components/
-    dashboard/              — KpiCard, SalesChart, AdPerformanceChart, TopProductsTable
+    dashboard/              — KpiCard, SalesChart, AdPerformanceChart, TopProductsTable, Sidebar
     publication/            — AdPanel, Filters, HealthScore, KpiRow, ProductHeader, ProfitBreakdown, PublicationHeader, RecommendationList, Table
     product/                — ProductCard, ProductFilters
     shared/                 — StatusBadge, TrendBadge
@@ -39,12 +39,12 @@ app/
     default/                — Footer, Main, Section (auth pages)
     heading/                — H1 (componente unificado con prop level: 1|2)
   composables/
-    useChartTheme.js        — Paleta de colores Chart.js reactiva al color mode
-    useDashboardStats.js    — KPIs, datos de charts, rankings (mock)
-    useProducts.js          — Productos con filtros, paginación (mock)
-    usePublications.js      — Publicaciones de un producto (mock)
-    usePublicationDetail.js — Detalle de publicación + profit + ads (mock)
-    useHealthScore.js       — Cálculo de score de salud (0-100)
+    useChartTheme.js        — Paleta centralizada de colores Chart.js (primary, muted, tickColor, tooltips, grid)
+    useDashboardStats.js    — KPIs, datos de charts, rankings, reputación
+    useProducts.js          — Productos con filtros (estado, salud), paginación, ordenamiento
+    usePublications.js      — Publicaciones de un producto
+    usePublicationDetail.js — Detalle de publicación + profit + ads
+    useHealthScore.js       — Cálculo de score de salud (0-100), thresholds: 70/40
     useDebounce.js          — Utilidad debounce
     useDynamicForm.js       — Form builder dinámico (auth)
     useNotification.js      — Sistema de notificaciones
@@ -54,28 +54,33 @@ app/
     dashboard.vue           — UDashboardGroup + Sidebar + Panel + Navbar (con color mode toggle)
     auth.vue                — Layout de auth (NO TOCAR)
   pages/
-    index.vue               — Dashboard principal (layout: dashboard)
-    productos/index.vue     — Grid de productos con paginación (layout: dashboard)
+    index.vue               — Dashboard principal con skeletons (layout: dashboard)
+    productos/index.vue     — Grid de productos con paginación y skeletons (layout: dashboard)
     productos/[id]/index.vue — Publicaciones de un producto, UTable (layout: dashboard)
-    productos/[id]/[mla].vue — Detalle de publicación (layout: dashboard)
+    productos/[id]/[mla].vue — Detalle de publicación con skeletons (layout: dashboard)
     login.vue               — Login (layout: auth)
     register.vue            — Registro (layout: auth)
     forgot-password.vue     — Recuperar contraseña (layout: auth)
     forgot-password-confirmation.vue
     reset-password.vue
   plugins/
-    chartjs.client.js       — Registro centralizado de Chart.js (client-only)
+    chartjs.client.js       — Registro selectivo de Chart.js (tree-shaken, client-only)
   utils/
-    formatters.js           — formatCurrency, formatNumber, formatRevenue (auto-importados)
+    formatters.js           — formatCurrency, formatNumber, formatRevenue, upgradeMLImage (auto-importados)
     errorHandler.js         — Mapeo de errores Supabase a español
   constants/
     ROUTE_NAMES.js          — Rutas nombradas
+    HEALTH_THRESHOLDS.js    — Thresholds de salud centralizados (GOOD: 70, WARNING: 40) + helpers getHealthColor, getHealthBgColor
   types/
     product.js              — Definiciones JSDoc
 server/
   api/
     sync-products.js        — Proxy GET a backend externo
     sync-id-products/[mlId].js — Proxy GET por ID
+    dashboard-stats.js      — Proxy GET estadísticas dashboard
+    products/[id]/publications.js — Proxy GET publicaciones
+    publications/[mlaId]/live.js — Proxy GET datos live publicación
+    publications/[mlaId]/metrics.js — Proxy GET métricas publicación
 ```
 
 ## Paleta de colores
@@ -100,11 +105,11 @@ Colores semánticos en `app.config.ts`: primary, success (green), warning (yello
 
 ## Color mode
 
-- **Default**: dark
+- **Default**: light
 - **Toggle**: `UColorModeButton` en el navbar del dashboard
-- **Config**: `colorMode.preference: 'dark'` en nuxt.config.ts
+- **Config**: `colorMode.preference: 'light'` en nuxt.config.ts
 - **CSS**: `@theme` define valores light (default), `.dark` los overridea
-- **Charts**: usan `useChartTheme()` composable + colores inline con `colorMode.value` ternarios + `:key="colorMode.value"` para re-render
+- **Charts**: usan `useChartTheme()` composable con paleta centralizada. NO usar `:key="colorMode.value"` (reactivo via computed)
 - **Contraste light**: colores semánticos usan `*-600 dark:*-400` (ej: `text-primary-600 dark:text-primary-400`)
 
 ## Convenciones
@@ -115,14 +120,19 @@ Colores semánticos en `app.config.ts`: primary, success (green), warning (yello
 - Nuxt auto-importa: NO hacer `import { ref, computed } from 'vue'`
 - Nuxt auto-importa desde `utils/` y `composables/`
 - Iconos: `i-tabler-*` via @nuxt/icon. Lucide solo dentro de Nuxt UI
-- Charts: siempre via `vue-chartjs`, font-family `Outfit`, colores con ternario `colorMode.value === 'dark' ? X : Y`
+- Charts: siempre via `vue-chartjs`, font-family `Outfit`, colores via `useChartTheme()` (NO hex hardcodeados)
 - Formateo: usar `formatCurrency()`, `formatNumber()`, `formatRevenue()` de utils
+- Imágenes ML: usar `upgradeMLImage()` para obtener resolución alta de thumbnails
+- Imágenes: siempre `<NuxtImg>` con `loading="lazy"` (NO `<img>` raw)
 - Tailwind CSS 4: tokens via `@theme` en main.css, NO hay tailwind.config.js
 - Rutas: usar `ROUTE_NAMES` de `~/constants/ROUTE_NAMES.js`, NO hardcodear paths
 - Headings: usar `<HeadingH1>` (h1 por defecto) o `<HeadingH1 :level="2">` (h2)
 - Cards dashboard: `bg-surface-lowest rounded-xl border border-outline-variant/30 p-4`, gap-4 entre secciones
 - Colores en light: usar `*-600 dark:*-400` para primary, green, yellow, red (contraste)
 - UPagination: usar `v-model:page` (NO `v-model`)
+- Thresholds de salud: importar de `~/constants/HEALTH_THRESHOLDS.js` (NO hardcodear 70/40)
+- Loading states: composables arrancan con `loading = ref(true)`, skeletons con `USkeleton` de Nuxt UI
+- Breadcrumbs largos: truncar títulos con `truncateTitle(title, maxWords)` a 4 palabras
 
 ## Reglas
 
@@ -135,7 +145,7 @@ Colores semánticos en `app.config.ts`: primary, success (green), warning (yello
 
 ## Datos
 
-Todo es mock. Los composables (`useDashboardStats`, `useProducts`, `usePublications`, `usePublicationDetail`) tienen datos hardcodeados con estructura preparada para APIs reales. El backend proxy está en Render (`BACKEND_URL` en .env).
+Los composables (`useDashboardStats`, `useProducts`, `usePublications`, `usePublicationDetail`) consumen APIs via proxy server routes. El backend está en Render (`BACKEND_URL` en .env).
 
 ## Variables de entorno
 

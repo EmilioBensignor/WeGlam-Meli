@@ -6,7 +6,7 @@
         <div v-if="ads.activa"
           class="flex items-center gap-2 bg-primary-400/10 border border-primary-400/20 rounded-full px-2 py-1">
           <div class="w-3 h-3 rounded-full bg-primary-400 animate-pulse" />
-          <span class="text-xs font-bold text-primary-600 dark:text-primary-400">Campaña Activa</span>
+          <span class="text-base font-bold text-primary-600 dark:text-primary-400">Campaña Activa</span>
         </div>
       </div>
     </div>
@@ -41,16 +41,16 @@
         <div class="flex justify-between items-center">
           <p class="font-bold text-on-surface">Gasto diario vs Ventas atribuidas</p>
           <div class="flex gap-4">
-            <span class="flex items-center gap-1 text-sm">
+            <span class="flex items-center gap-1 text-base">
               <span class="w-3 h-3 bg-primary-400 rounded-full" /> Ventas
             </span>
-            <span class="flex items-center gap-1 text-sm">
+            <span class="flex items-center gap-1 text-base">
               <span class="w-3 h-3 bg-surface-highest rounded-full" /> Gasto
             </span>
           </div>
         </div>
         <div class="flex-1 h-48" role="img" aria-label="Gráfico de gasto diario vs ventas atribuidas por publicidad">
-          <Bar :key="colorMode.value" :data="chartData" :options="chartOptions" />
+          <Bar :data="chartData" :options="chartOptions" />
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ const props = defineProps({
   ads: { type: Object, required: true },
 })
 
-const { colorMode, chartColors } = useChartTheme()
+const { chartColors } = useChartTheme()
 
 const chartData = computed(() => ({
   labels: props.ads.dailyData.map(d => d.label),
@@ -72,7 +72,7 @@ const chartData = computed(() => ({
     {
       label: 'Ventas',
       data: props.ads.dailyData.map(d => d.ventas),
-      backgroundColor: '#6CC3E0',
+      backgroundColor: chartColors.value.primary,
       borderRadius: 2,
       barPercentage: 0.5,
       categoryPercentage: 0.8,
@@ -80,7 +80,7 @@ const chartData = computed(() => ({
     {
       label: 'Gasto',
       data: props.ads.dailyData.map(d => d.gasto),
-      backgroundColor: colorMode.value === 'dark' ? '#889297' : '#5A6370',
+      backgroundColor: chartColors.value.muted,
       borderRadius: 2,
       barPercentage: 0.5,
       categoryPercentage: 0.8,
@@ -110,13 +110,13 @@ const chartOptions = computed(() => ({
   scales: {
     x: {
       grid: { display: false },
-      ticks: { color: colorMode.value === 'dark' ? '#FFFFFF' : '#000000', font: { family: 'Outfit', size: 14 }, maxTicksLimit: 7 },
+      ticks: { color: chartColors.value.tickColor, font: { family: 'Outfit', size: 14 }, maxTicksLimit: 7 },
       border: { display: false },
     },
     y: {
       grid: { color: chartColors.value.gridColor },
       ticks: {
-        color: colorMode.value === 'dark' ? '#FFFFFF' : '#000000',
+        color: chartColors.value.tickColor,
         font: { family: 'Outfit', size: 12 },
         callback: (value) => `$${(value / 1000).toFixed(0)}k`,
       },

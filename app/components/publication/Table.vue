@@ -13,12 +13,12 @@
   }" @select="(e, row) => emit('select', row)">
     <template #imagen-cell="{ row }">
       <div class="w-12 h-12 rounded-lg bg-surface-highest border border-outline-variant/30 overflow-hidden shrink-0">
-        <img :src="row.original.imagen" :alt="row.original.titulo" class="w-full h-full object-cover">
+        <NuxtImg :src="row.original.imagen" :alt="row.original.titulo" class="w-full h-full object-cover" loading="lazy" />
       </div>
     </template>
 
     <template #mlaId-cell="{ row }">
-      <span class="text-on-surface-variant text-sm">{{ row.original.mlaId }}</span>
+      <span class="text-on-surface-variant">{{ row.original.mlaId }}</span>
     </template>
 
     <template #titulo-cell="{ row }">
@@ -61,10 +61,6 @@
         <span class="text-on-surface">{{ row.original.healthScore }}</span>
       </div>
     </template>
-
-    <template #listingType-cell="{ row }">
-      <span class="text-on-surface-variant text-xs">{{ row.original.listingType || '-' }}</span>
-    </template>
   </UTable>
 
   <div v-else class="text-center py-20">
@@ -92,14 +88,13 @@ const columns = [
   { accessorKey: 'ventas30d', header: 'Ventas 30d' },
   { accessorKey: 'conversion', header: 'Conv. %' },
   { accessorKey: 'estado', header: 'Estado' },
-  { accessorKey: 'listingType', header: 'Tipo' },
   { accessorKey: 'healthScore', header: 'Salud' },
 ]
 
 
+import { getHealthBgColor } from '~/constants/HEALTH_THRESHOLDS.js'
+
 function healthDotColor(score) {
-  if (score >= 70) return 'bg-green-400'
-  if (score >= 40) return 'bg-yellow-400'
-  return 'bg-red-400'
+  return getHealthBgColor(score)
 }
 </script>

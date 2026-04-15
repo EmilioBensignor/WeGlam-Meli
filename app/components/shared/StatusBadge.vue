@@ -1,5 +1,5 @@
 <template>
-  <span class="w-max flex items-center text-sm font-semibold rounded border px-2 py-0.5" :class="config.color">
+  <span class="w-max flex items-center text-base font-semibold rounded border px-2.5 py-0.5" :class="config.color">
     {{ config.label }}
   </span>
 </template>

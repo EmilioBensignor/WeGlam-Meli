@@ -11,3 +11,8 @@ export function formatRevenue(value) {
   if (value >= 1000) return `$${(value / 1000).toFixed(1)}k`
   return `$${value}`
 }
+
+export function upgradeMLImage(url) {
+  if (!url) return ''
+  return url.replace(/-[A-Z]\.jpg$/, '-O.jpg').replace(/-[A-Z]\.webp$/, '-O.webp')
+}

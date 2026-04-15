@@ -60,24 +60,27 @@ a,
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F0F1F3;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C8CDD3;
-  border-radius: 10px;
+  background: var(--color-outline-variant);
+  border-radius: 9999px;
 }
 
-.dark ::-webkit-scrollbar-track {
-  background: var(--color-surface-base);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: var(--color-surface-highest);
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
 }
 
 .lume-gradient {

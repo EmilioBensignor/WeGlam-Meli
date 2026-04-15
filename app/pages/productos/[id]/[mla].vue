@@ -56,9 +56,15 @@ onMounted(() => {
   fetchDetail()
 })
 
+const truncateTitle = (title, maxWords = 4) => {
+  if (!title) return 'Producto'
+  const words = title.split(' ')
+  return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : title
+}
+
 const breadcrumbItems = computed(() => [
   { label: 'Productos', to: ROUTE_NAMES.PRODUCTOS },
-  { label: publication.value?.titulo?.split(' - ')[0]?.split(' Pack')[0] || 'Producto', to: `${ROUTE_NAMES.PRODUCTOS}/${productId.value}` },
+  { label: truncateTitle(publication.value?.titulo), to: `${ROUTE_NAMES.PRODUCTOS}/${productId.value}` },
   { label: mlaId.value },
 ])
 </script>

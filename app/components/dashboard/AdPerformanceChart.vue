@@ -6,7 +6,10 @@
     </div>
 
     <div class="flex-1 min-h-48" role="img" aria-label="Gráfico de gasto publicitario vs retorno semanal">
-      <Bar :key="colorMode.value" :data="chartData" :options="chartOptions" />
+      <div v-if="!props.data.length" class="h-48 flex items-center justify-center">
+        <p class="text-on-surface-variant text-sm">Sin datos disponibles</p>
+      </div>
+      <Bar v-else :data="chartData" :options="chartOptions" />
     </div>
 
     <div class="flex justify-between">
@@ -29,7 +32,7 @@ const props = defineProps({
   data: { type: Array, required: true },
 })
 
-const { colorMode, chartColors } = useChartTheme()
+const { chartColors } = useChartTheme()
 
 const roiPromedio = computed(() => {
   const totalRetorno = props.data.reduce((acc, d) => acc + d.retorno, 0)
@@ -48,7 +51,7 @@ const chartData = computed(() => ({
     {
       label: 'Gasto',
       data: props.data.map(d => d.gasto),
-      backgroundColor: colorMode.value === 'dark' ? '#889297' : '#5A6370',
+      backgroundColor: chartColors.value.muted,
       borderRadius: 2,
       barPercentage: 0.4,
       categoryPercentage: 0.6,
@@ -56,7 +59,7 @@ const chartData = computed(() => ({
     {
       label: 'Retorno',
       data: props.data.map(d => d.retorno),
-      backgroundColor: '#6CC3E0',
+      backgroundColor: chartColors.value.primary,
       borderRadius: 2,
       barPercentage: 0.4,
       categoryPercentage: 0.6,
@@ -90,7 +93,7 @@ const chartOptions = computed(() => ({
     x: {
       grid: { display: false },
       ticks: {
-        color: colorMode.value === 'dark' ? '#FFFFFF' : '#000000',
+        color: chartColors.value.tickColor,
         font: { family: 'Outfit', size: 14 },
       },
       border: { display: false },
@@ -100,7 +103,7 @@ const chartOptions = computed(() => ({
         color: chartColors.value.gridColor,
       },
       ticks: {
-        color: colorMode.value === 'dark' ? '#FFFFFF' : '#000000',
+        color: chartColors.value.tickColor,
         font: { family: 'Outfit', size: 14 },
         callback: (value) => `$${(value / 1000).toFixed(0)}k`,
       },

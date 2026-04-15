@@ -4,17 +4,17 @@
       <div>
         <div class="flex items-end gap-4">
           <HeadingH1>Productos</HeadingH1>
-          <span class="bg-primary-400 rounded-full text-xs text-black font-medium border border-primary-400/50 px-3 py-1">
+          <span class="bg-primary-400 rounded-full text-sm text-black font-semibold border border-primary-400/50 px-3.5 py-1">
             {{ filteredProducts.length }}
           </span>
         </div>
       </div>
 
-      <ProductFilters v-model:search-query="searchQuery" v-model:selected-category="selectedCategory"
-        v-model:selected-status="selectedStatus" v-model:sort-by="sortBy" :categories="categories" />
+      <ProductFilters v-model:search-query="searchQuery" v-model:selected-status="selectedStatus"
+        v-model:selected-health="selectedHealth" v-model:sort-by="sortBy" />
 
       <div v-if="loading" class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        <div v-for="i in 10" :key="i"
+        <div v-for="i in pageSize" :key="i"
           class="bg-surface-lowest rounded-xl p-4 flex gap-4 animate-pulse border border-outline-variant/30">
           <div class="w-32 h-32 shrink-0 bg-surface-highest rounded-xl" />
           <div class="flex-1 flex flex-col gap-3">
@@ -38,10 +38,10 @@
 
     <div v-if="totalPages > 1" class="flex items-center justify-between border-t border-on-surface/30 py-4 mt-4">
       <span class="text-sm text-on-surface">
-        Mostrando {{ (currentPage - 1) * 10 + 1 }}-{{ Math.min(currentPage * 10, filteredProducts.length) }} de {{
+        Mostrando {{ (currentPage - 1) * pageSize + 1 }}-{{ Math.min(currentPage * pageSize, filteredProducts.length) }} de {{
           filteredProducts.length }}
       </span>
-      <UPagination v-model:page="currentPage" :total="filteredProducts.length" :items-per-page="10" />
+      <UPagination v-model:page="currentPage" :total="filteredProducts.length" :items-per-page="pageSize" />
     </div>
   </section>
 </template>
@@ -54,12 +54,12 @@ const {
   filteredProducts,
   loading,
   searchQuery,
-  selectedCategory,
   selectedStatus,
+  selectedHealth,
   sortBy,
   currentPage,
+  pageSize,
   totalPages,
-  categories,
   fetchProducts,
 } = useProducts()
 

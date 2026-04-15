@@ -1,22 +1,15 @@
 export function useProducts() {
   const products = ref([])
-  const loading = ref(false)
+  const loading = ref(true)
   const error = ref(null)
 
   const searchQuery = ref('')
-  const selectedCategory = ref(null)
   const selectedStatus = ref(null)
+  const selectedHealth = ref(null)
   const sortBy = ref('ventas')
 
   const currentPage = ref(1)
   const pageSize = ref(10)
-
-  const categories = computed(() => {
-    const cats = [...new Set(products.value.map(p => p.categoria).filter(Boolean))]
-    return cats.sort()
-  })
-
-  const conCatalogo = computed(() => products.value.filter(p => p.tipo === 'catalogo').length)
 
   const filteredProducts = computed(() => {
     let result = [...products.value]
@@ -30,25 +23,34 @@ export function useProducts() {
       )
     }
 
-    if (selectedCategory.value) {
-      result = result.filter(p => p.categoria === selectedCategory.value)
-    }
-
     if (selectedStatus.value === 'con_stock') {
       result = result.filter(p => p.stockTotal > 0)
     } else if (selectedStatus.value === 'sin_stock') {
       result = result.filter(p => p.stockTotal === 0)
+    } else if (selectedStatus.value === 'con_preguntas') {
+      result = result.filter(p => p.preguntasSinResponder > 0)
+    }
+
+    if (selectedHealth.value === 'saludable') {
+      result = result.filter(p => p.healthScore >= 70)
+    } else if (selectedHealth.value === 'mejorable') {
+      result = result.filter(p => p.healthScore >= 40 && p.healthScore < 70)
+    } else if (selectedHealth.value === 'critico') {
+      result = result.filter(p => p.healthScore < 40)
     }
 
     switch (sortBy.value) {
       case 'ventas':
         result.sort((a, b) => b.revenue30d - a.revenue30d)
         break
-      case 'publicaciones':
-        result.sort((a, b) => b.publicacionesActivas - a.publicacionesActivas)
+      case 'peores':
+        result.sort((a, b) => a.revenue30d - b.revenue30d)
         break
-      case 'alfabetico':
-        result.sort((a, b) => a.titulo.localeCompare(b.titulo))
+      case 'mejor_salud':
+        result.sort((a, b) => b.healthScore - a.healthScore)
+        break
+      case 'peor_salud':
+        result.sort((a, b) => a.healthScore - b.healthScore)
         break
     }
 
@@ -62,7 +64,7 @@ export function useProducts() {
     return filteredProducts.value.slice(start, start + pageSize.value)
   })
 
-  watch([searchQuery, selectedCategory, selectedStatus, sortBy], () => {
+  watch([searchQuery, selectedStatus, selectedHealth, sortBy], () => {
     currentPage.value = 1
   })
 
@@ -77,7 +79,7 @@ export function useProducts() {
         tipo: item.tipo || 'standalone',
         titulo: item.titulo || '',
         categoria: item.categoria || '',
-        imagen: item.thumbnail || item.imagenes?.[0]?.url || '',
+        imagen: upgradeMLImage(item.thumbnail || item.imagenes?.[0]?.url || ''),
         publicaciones: item.publicaciones ?? 1,
         publicacionesActivas: item.publicaciones_activas ?? 0,
         publicacionesPausadas: item.publicaciones_pausadas ?? 0,
@@ -106,14 +108,12 @@ export function useProducts() {
     loading: readonly(loading),
     error: readonly(error),
     searchQuery,
-    selectedCategory,
     selectedStatus,
+    selectedHealth,
     sortBy,
     currentPage,
     pageSize,
     totalPages,
-    categories,
-    conCatalogo,
     fetchProducts,
   }
 }

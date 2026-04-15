@@ -11,7 +11,10 @@
       </div>
     </div>
     <div class="flex-1 min-h-48 w-full" role="img" aria-label="Gráfico de tendencia de ingresos brutos de los últimos 30 días">
-      <Line :key="colorMode.value" :data="chartData" :options="chartOptions" />
+      <div v-if="!props.data.length" class="h-48 flex items-center justify-center">
+        <p class="text-on-surface-variant text-sm">Sin datos disponibles</p>
+      </div>
+      <Line v-else :data="chartData" :options="chartOptions" />
     </div>
   </div>
 </template>
@@ -31,7 +34,7 @@ const chartData = computed(() => ({
     {
       label: 'Ingresos Brutos',
       data: props.data.map(d => d.value),
-      borderColor: '#6CC3E0',
+      borderColor: chartColors.value.primary,
       backgroundColor: (ctx) => {
         const chart = ctx.chart
         const { ctx: canvasCtx, chartArea } = chart
@@ -46,7 +49,7 @@ const chartData = computed(() => ({
       tension: 0.4,
       pointRadius: 0,
       pointHoverRadius: 6,
-      pointHoverBackgroundColor: '#6CC3E0',
+      pointHoverBackgroundColor: chartColors.value.primary,
       pointHoverBorderColor: chartColors.value.pointHoverBorder,
       pointHoverBorderWidth: 3,
     },
@@ -79,7 +82,7 @@ const chartOptions = computed(() => ({
     x: {
       grid: { display: false },
       ticks: {
-        color: colorMode.value === 'dark' ? '#FFFFFF' : '#000000',
+        color: chartColors.value.tickColor,
         font: { family: 'Outfit', size: 14 },
         maxTicksLimit: 5,
       },
@@ -90,7 +93,7 @@ const chartOptions = computed(() => ({
         color: chartColors.value.gridColor,
       },
       ticks: {
-        color: colorMode.value === 'dark' ? '#FFFFFF' : '#000000',
+        color: chartColors.value.tickColor,
         font: { family: 'Outfit', size: 14 },
         callback: (value) => `$${(value / 1000).toFixed(0)}k`,
       },

@@ -4,6 +4,9 @@ export function useChartTheme() {
   const chartColors = computed(() => {
     const isDark = colorMode.value === 'dark'
     return {
+      primary: '#6CC3E0',
+      muted: isDark ? '#889297' : '#5A6370',
+      tickColor: isDark ? '#E2E2EA' : '#1A1C22',
       tooltipBg: isDark ? '#0C0E14' : '#FFFFFF',
       tooltipTitle: isDark ? '#E2E2EA' : '#1A1C22',
       tooltipBody: isDark ? '#BEC8CD' : '#5A6370',

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     apiKey: process.env.API_KEY,
     backendUrl: process.env.BACKEND_URL,
   },
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV === 'development' },
   css: ['~/assets/css/main.css'],
   modules: [
     '@nuxt/ui',
@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     colorMode: true,
   },
   colorMode: {
-    preference: 'dark',
+    preference: 'light',
   },
   supabase: {
     redirectOptions: {
@@ -59,8 +59,6 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@vue/devtools-core',
-        '@vue/devtools-kit',
         'vue-chartjs',
         'chart.js',
       ],
