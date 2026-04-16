@@ -52,6 +52,12 @@ export function useProducts() {
       case 'peor_salud':
         result.sort((a, b) => a.healthScore - b.healthScore)
         break
+      case 'mas_publicaciones':
+        result.sort((a, b) => b.publicaciones - a.publicaciones)
+        break
+      case 'menos_publicaciones':
+        result.sort((a, b) => a.publicaciones - b.publicaciones)
+        break
     }
 
     return result

@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-6">
     <h3 class="font-bold text-on-surface">Recomendaciones</h3>
     <div class="flex flex-col gap-4">
-      <div v-for="rec in recommendations" :key="rec.titulo" class="flex gap-2">
+      <div v-for="rec in sortedRecommendations" :key="rec.titulo" class="flex gap-2">
         <Icon :name="rec.icon" class="size-8 shrink-0"
           :class="rec.prioridad === 'alta' ? 'text-yellow-600 dark:text-yellow-400' : rec.prioridad === 'media' ? 'text-primary-600 dark:text-primary-400' : 'text-on-surface-variant'" />
         <div class="flex-1 min-w-0 flex flex-col gap-1">
@@ -20,13 +20,21 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   recommendations: { type: Array, required: true },
 })
 
 const priorityConfig = {
-  alta: { color: 'bg-red-400/10 text-red-600 dark:text-red-400', label: 'Alta' },
-  media: { color: 'bg-outline-variant/20 text-on-surface-variant', label: 'Media' },
-  baja: { color: 'bg-outline-variant/10 text-on-surface-variant', label: 'Baja' },
+  alta: { color: 'bg-red-400/10 text-red-600 dark:text-red-400', label: 'Alta prioridad', order: 0 },
+  media: { color: 'bg-outline-variant/20 text-on-surface-variant', label: 'Media prioridad', order: 1 },
+  baja: { color: 'bg-outline-variant/10 text-on-surface-variant', label: 'Baja prioridad', order: 2 },
 }
+
+const sortedRecommendations = computed(() => {
+  return [...props.recommendations].sort((a, b) => {
+    const orderA = priorityConfig[a.prioridad]?.order ?? 99
+    const orderB = priorityConfig[b.prioridad]?.order ?? 99
+    return orderA - orderB
+  })
+})
 </script>

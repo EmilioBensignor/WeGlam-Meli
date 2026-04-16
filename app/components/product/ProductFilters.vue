@@ -3,7 +3,7 @@
     <div class="flex items-end gap-4 flex-wrap">
       <div class="w-64 flex flex-col gap-1.5">
         <label class="text-base text-on-surface font-medium">Buscar</label>
-        <UInput v-model="searchQuery" placeholder="Buscar producto..." icon="i-tabler-search" size="lg"
+        <UInput v-model="searchQuery" placeholder="Buscar por título o MLA..." icon="i-tabler-search" size="lg"
           variant="outline" color="neutral" />
       </div>
 
@@ -56,6 +56,8 @@ const sortOptions = [
   { label: 'Menos vendidos', value: 'peores' },
   { label: 'Mejor salud', value: 'mejor_salud' },
   { label: 'Peor salud', value: 'peor_salud' },
+  { label: 'Más publicaciones', value: 'mas_publicaciones' },
+  { label: 'Menos publicaciones', value: 'menos_publicaciones' },
 ]
 
 function onStatusChange(val) {

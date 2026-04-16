@@ -11,9 +11,12 @@
 
     <div class="flex flex-col gap-1.5">
       <HeadingH1 :level="2" class="text-3xl! font-sans">
-        {{ value }}
+        <template v-if="healthParts">
+          <span :class="healthColorClass">{{ healthParts.score }}</span><span>{{ healthParts.rest }}</span>
+        </template>
+        <template v-else>{{ value }}</template>
       </HeadingH1>
-      <SharedTrendBadge :value="trend" size="base" />
+      <SharedTrendBadge v-if="trend" :value="trend" size="base" />
     </div>
 
     <slot />
@@ -21,10 +24,12 @@
 </template>
 
 <script setup>
+import { getHealthColor } from '~/constants/HEALTH_THRESHOLDS.js'
+
 const props = defineProps({
   label: { type: String, required: true },
   value: { type: [String, Number], required: true },
-  trend: { type: Number, required: true },
+  trend: { type: Number, default: null },
   icon: { type: String, required: true },
   color: { type: String, default: 'primary' },
 })
@@ -35,4 +40,17 @@ const iconBgMap = {
   warning: 'bg-yellow-200 text-yellow-600 dark:bg-yellow-400/15 dark:text-yellow-400',
   error: 'bg-red-200 text-red-600 dark:bg-red-400/15 dark:text-red-400',
 }
+
+// Si el KPI es de salud, separa el score del resto para colorearlo solo
+const healthParts = computed(() => {
+  if (!props.label?.toLowerCase().includes('salud')) return null
+  const match = String(props.value).match(/^(\d+)(.*)$/)
+  if (!match) return null
+  return { score: match[1], rest: match[2] }
+})
+
+const healthColorClass = computed(() => {
+  if (!healthParts.value) return ''
+  return getHealthColor(parseInt(healthParts.value.score, 10)) + '!'
+})
 </script>

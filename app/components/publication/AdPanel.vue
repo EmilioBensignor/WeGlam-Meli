@@ -54,6 +54,21 @@
         </div>
       </div>
     </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-outline-variant/30">
+      <div class="flex flex-col gap-1">
+        <p class="text-sm font-bold text-on-surface">CTR · Click-Through Rate</p>
+        <p class="text-sm text-on-surface-variant">% de personas que vieron el anuncio e hicieron click. Alto = llama la atención.</p>
+      </div>
+      <div class="flex flex-col gap-1">
+        <p class="text-sm font-bold text-on-surface">ACOS · Advertising Cost of Sales</p>
+        <p class="text-sm text-on-surface-variant">Cuánto gastás en ads por cada $100 vendidos. Bajo es mejor.</p>
+      </div>
+      <div class="flex flex-col gap-1">
+        <p class="text-sm font-bold text-on-surface">ROI Publicitario · Return on Investment</p>
+        <p class="text-sm text-on-surface-variant">Cuántas veces recuperás lo invertido. 3x = por cada $1 gastado, ganás $3.</p>
+      </div>
+    </div>
   </section>
 </template>
 
