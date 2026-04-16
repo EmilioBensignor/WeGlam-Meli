@@ -52,7 +52,7 @@
 
     <template #estado-cell="{ row }">
       <SharedStatusBadge
-        :status="row.original.estado === 'active' ? 'Activa' : row.original.estado === 'paused' ? 'Pausada' : 'Cerrada'" />
+        :status="row.original.estado === 'active' ? 'Activa' : row.original.estado === 'paused' ? 'Pausada' : 'Inactiva'" />
     </template>
 
     <template #healthScore-cell="{ row }">

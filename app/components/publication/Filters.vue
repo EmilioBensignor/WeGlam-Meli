@@ -32,7 +32,7 @@ const statusOptions = [
   { label: 'Todas', value: 'all' },
   { label: 'Activa', value: 'active' },
   { label: 'Pausada', value: 'paused' },
-  { label: 'Cerrada', value: 'closed' },
+  { label: 'Inactiva', value: 'closed' },
 ]
 
 const sortOptions = [

@@ -37,7 +37,7 @@ const props = defineProps({
 })
 
 const statusLabel = computed(() => {
-  const map = { active: 'Activa', paused: 'Pausada', closed: 'Cerrada' }
+  const map = { active: 'Activa', paused: 'Pausada', closed: 'Inactiva' }
   return map[props.publication.estado] || props.publication.estado
 })
 </script>

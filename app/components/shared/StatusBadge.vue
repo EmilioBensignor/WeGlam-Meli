@@ -21,6 +21,7 @@ const config = computed(() => {
       return { color: 'text-yellow-600 bg-yellow-200 border-yellow-300 dark:text-yellow-400 dark:bg-yellow-400/10 dark:border-yellow-400/20', label: props.status }
     case 'closed':
     case 'cerrada':
+    case 'inactiva':
     case 'crítico':
       return { color: 'text-red-600 bg-red-200 border-red-300 dark:text-red-400 dark:bg-red-400/10 dark:border-red-400/20', label: props.status }
     case 'bajo rendimiento':

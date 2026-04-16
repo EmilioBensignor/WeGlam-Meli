@@ -41,7 +41,7 @@ app/
   composables/
     useChartTheme.js        — Paleta centralizada de colores Chart.js (primary, muted, tickColor, tooltips, grid)
     useDashboardStats.js    — KPIs, datos de charts, rankings, reputación
-    useProducts.js          — Productos con filtros (estado, salud), paginación, ordenamiento
+    useProducts.js          — Productos con filtros (estado, salud), paginación, ordenamiento (ventas, peores, salud, publicaciones)
     usePublications.js      — Publicaciones de un producto
     usePublicationDetail.js — Detalle de publicación + profit + ads
     useHealthScore.js       — Cálculo de score de salud (0-100), thresholds: 70/40
@@ -65,6 +65,7 @@ app/
     reset-password.vue
   plugins/
     chartjs.client.js       — Registro selectivo de Chart.js (tree-shaken, client-only)
+    scroll-to-top.client.js — Resetea scroll al top en cada cambio de ruta (window + UDashboardPanel)
   utils/
     formatters.js           — formatCurrency, formatNumber, formatRevenue, upgradeMLImage (auto-importados)
     errorHandler.js         — Mapeo de errores Supabase a español
@@ -133,6 +134,10 @@ Colores semánticos en `app.config.ts`: primary, success (green), warning (yello
 - Thresholds de salud: importar de `~/constants/HEALTH_THRESHOLDS.js` (NO hardcodear 70/40)
 - Loading states: composables arrancan con `loading = ref(true)`, skeletons con `USkeleton` de Nuxt UI
 - Breadcrumbs largos: truncar títulos con `truncateTitle(title, maxWords)` a 4 palabras
+- Trend badges: ocultar con `v-if="trend"` cuando el backend devuelve `null`, `undefined` o `0` (0 = sin cambio, ya informado por el badge `— 0%`)
+- Color dinámico en valores de salud: separar score del resto (`value.match(/^(\d+)(.*)$/)`) y aplicar `getHealthColor()` solo al número
+- Ordenamiento de prioridades: en `RecommendationList`, usar `priorityConfig[prioridad].order` (alta=0, media=1, baja=2) para sortear con `computed`
+- Búsqueda en productos: filtra por título, id interno y mlId. Placeholder debe reflejarlo ("Buscar por título o MLA...")
 
 ## Reglas
 
