@@ -1,12 +1,14 @@
 <template>
-  <UDashboardSidebar collapsible resizable :min-size="10" :max-size="10" :default-size="10" :ui="{
+  <UDashboardSidebar collapsible :default-size="16" :min-size="16" :max-size="16" :collapsed-size="0" :ui="{
     root: 'bg-surface-low dark:bg-surface-lowest',
     header: 'p-4 lg:p-6',
     body: 'p-3',
     footer: 'py-4 px-3',
+    content: 'bg-surface-low dark:bg-surface-lowest ring-0 w-64! max-w-[70vw]!',
+    overlay: 'bg-on-surface/40',
   }">
     <template #header="{ collapsed }">
-      <NuxtLink v-if="!collapsed" :to="ROUTE_NAMES.HOME" class="">
+      <NuxtLink v-if="!collapsed" :to="ROUTE_NAMES.HOME">
         <NuxtImg src="/images/Logo-We-Glam-Negro.svg" alt="We Glam" class="h-8 dark:hidden object-contain" />
         <NuxtImg src="/images/Logo-We-Glam-Blanco.svg" alt="We Glam" class="h-8 hidden dark:block object-contain" />
       </NuxtLink>
@@ -17,7 +19,7 @@
         :highlight="false" :ui="{
           list: 'space-y-1 p-0',
           link: collapsed
-            ? 'w-10 h-10 justify-center text-on-surface hover:before:bg-transparent! data-[active]:before:bg-primary-400! data-[active]:text-primary-950! py-2! px-2.5! '
+            ? 'w-10 h-10 justify-center text-on-surface hover:before:bg-transparent! data-[active]:before:bg-primary-400! data-[active]:text-primary-950! py-2! px-2.5!'
             : 'gap-2 text-base text-on-surface hover:before:bg-transparent! data-[active]:before:bg-primary-400! data-[active]:text-primary-950! py-2',
           linkLeadingIcon: 'size-5! text-inherit!',
         }" />

@@ -41,7 +41,6 @@ const iconBgMap = {
   error: 'bg-red-200 text-red-600 dark:bg-red-400/15 dark:text-red-400',
 }
 
-// Si el KPI es de salud, separa el score del resto para colorearlo solo
 const healthParts = computed(() => {
   if (!props.label?.toLowerCase().includes('salud')) return null
   const match = String(props.value).match(/^(\d+)(.*)$/)

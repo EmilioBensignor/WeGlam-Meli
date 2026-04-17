@@ -6,9 +6,8 @@
       <template #header>
         <UDashboardNavbar>
           <template #leading>
-            <UDashboardSidebarCollapse color="neutral" variant="ghost" class="text-on-surface" />
+            <UDashboardSidebarCollapse color="neutral" variant="ghost" class="text-on-surface hidden lg:flex" />
           </template>
-
           <template #right>
             <UColorModeButton color="neutral" variant="ghost" class="text-on-surface" />
           </template>

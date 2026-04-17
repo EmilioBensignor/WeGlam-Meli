@@ -24,11 +24,20 @@ export function usePublicationDetail(productId, mlaId) {
     }
   }
 
+  const { syncing, canSync, statusText, statusTone, sync } = useSyncPublication(mlaId, (fresh) => {
+    metrics.value = fresh
+  })
+
   return {
     publication: readonly(publication),
     metrics: readonly(metrics),
     loading: readonly(loading),
     error: readonly(error),
+    syncing,
+    canSync,
+    syncStatusText: statusText,
+    syncStatusTone: statusTone,
     fetchDetail,
+    syncPublication: sync,
   }
 }

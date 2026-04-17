@@ -16,7 +16,22 @@
     <template v-else-if="publication && metrics">
       <PublicationHeader :publication="publication" />
 
-      <PublicationKpiRow :metrics="metrics" :stock="publication.stock" :stock-max="publication.stockMax" class="mt-6" />
+      <div class="flex items-center gap-3">
+        <button type="button" :disabled="syncing || !canSync" :aria-busy="syncing" @click="syncPublication"
+          class="flex items-center gap-2 bg-primary-400 hover:bg-primary-300 rounded-xl px-4 py-2 text-base font-semibold text-primary-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          <Icon :name="syncing ? 'i-tabler-loader-2' : 'i-tabler-refresh'" class="size-5"
+            :class="{ 'animate-spin': syncing }" />
+          {{ syncing ? 'Actualizando...' : 'Actualizar datos' }}
+        </button>
+        <span v-if="syncStatusText" class="text-sm" :class="statusTextClass">
+          <Icon v-if="syncStatusTone === 'success'" name="i-tabler-circle-check-filled" class="size-4 inline mr-1" />
+          <Icon v-else-if="syncStatusTone === 'error'" name="i-tabler-alert-circle-filled" class="size-4 inline mr-1" />
+          <Icon v-else name="i-tabler-clock" class="size-4 inline mr-1" />
+          {{ syncStatusText }}
+        </span>
+      </div>
+
+      <PublicationKpiRow :metrics="metrics" :stock="publication.stock" :stock-max="publication.stockMax" />
 
       <div class="grid grid-cols-12 gap-4 items-stretch">
         <section class="col-span-12 xl:col-span-8 bg-surface-lowest rounded-xl border border-outline-variant/30 p-4">
@@ -49,8 +64,14 @@ const route = useRoute()
 const productId = computed(() => route.params.id)
 const mlaId = computed(() => route.params.mla)
 
-const { publication, metrics, loading, fetchDetail } = usePublicationDetail(productId, mlaId)
+const { publication, metrics, loading, syncing, canSync, syncStatusText, syncStatusTone, fetchDetail, syncPublication } = usePublicationDetail(productId, mlaId)
 const { criteria, totalScore, label: healthLabel } = useHealthScore(publication, metrics)
+
+const statusTextClass = computed(() => {
+  if (syncStatusTone.value === 'success') return 'text-green-600 dark:text-green-400'
+  if (syncStatusTone.value === 'error') return 'text-red-600 dark:text-red-400'
+  return 'text-on-surface-variant'
+})
 
 onMounted(() => {
   fetchDetail()
