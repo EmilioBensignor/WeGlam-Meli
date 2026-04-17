@@ -14,7 +14,7 @@
     </div>
 
     <template v-else-if="publication && metrics">
-      <PublicationHeader :publication="publication" />
+      <PublicationHeader :publication="publication" :profit="metrics.profit" />
 
       <div class="flex items-center gap-3">
         <button type="button" :disabled="syncing || !canSync" :aria-busy="syncing" @click="syncPublication"

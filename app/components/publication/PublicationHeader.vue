@@ -14,9 +14,9 @@
         <HeadingH1>{{ publication.titulo }}</HeadingH1>
         <div class="flex items-center gap-6">
           <div class="flex items-center gap-2">
-            <span class="text-3xl font-bold text-primary-600 dark:text-primary-400">{{ formatCurrency(publication.precio) }}</span>
-            <span v-if="publication.precioOriginal" class="text-base text-on-surface-variant line-through">
-              {{ formatCurrency(publication.precioOriginal) }}
+            <span class="text-3xl font-bold text-primary-600 dark:text-primary-400">{{ formatCurrency(precioVenta) }}</span>
+            <span v-if="precioOriginal" class="text-base text-on-surface-variant line-through">
+              {{ formatCurrency(precioOriginal) }}
             </span>
           </div>
           <a v-if="publication.permalink && publication.permalink !== '#'" :href="publication.permalink" target="_blank"
@@ -34,10 +34,15 @@
 <script setup>
 const props = defineProps({
   publication: { type: Object, required: true },
+  profit: { type: Object, default: null },
 })
 
 const statusLabel = computed(() => {
   const map = { active: 'Activa', paused: 'Pausada', closed: 'Inactiva' }
   return map[props.publication.estado] || props.publication.estado
 })
+
+// Precios: priorizar profit (que viene del endpoint /metrics con precios reales de ML)
+const precioVenta = computed(() => props.profit?.precioVenta ?? props.publication.precio)
+const precioOriginal = computed(() => props.profit?.precioOriginal ?? props.publication.precioOriginal)
 </script>
