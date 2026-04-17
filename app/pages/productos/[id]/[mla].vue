@@ -35,7 +35,7 @@
 
       <div class="grid grid-cols-12 gap-4 items-stretch">
         <section class="col-span-12 xl:col-span-8 bg-surface-lowest rounded-xl border border-outline-variant/30 p-4">
-          <PublicationHealthScore :score="totalScore" :label="healthLabel" :criteria="criteria">
+          <PublicationHealthScore :score="totalScore" :label="healthLabel" :criteria="criteria" :ml-level="metrics.mlHealthLevel">
             <PublicationRecommendationList :recommendations="metrics.recommendations" />
           </PublicationHealthScore>
         </section>

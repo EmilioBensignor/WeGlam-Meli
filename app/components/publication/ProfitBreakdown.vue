@@ -10,7 +10,12 @@
     <div class="flex flex-col gap-3 flex-1 text-base">
       <div class="flex justify-between items-center py-2">
         <span class="text-on-surface">Precio de venta</span>
-        <span class="font-bold text-on-surface">{{ formatProfitValue(profit.precioVenta) }}</span>
+        <span class="flex items-center gap-2">
+          <span v-if="profit.precioOriginal" class="text-sm text-on-surface-variant line-through">
+            {{ formatProfitValue(profit.precioOriginal) }}
+          </span>
+          <span class="font-bold text-on-surface">{{ formatProfitValue(profit.precioVenta) }}</span>
+        </span>
       </div>
       <div class="flex justify-between items-center py-2">
         <span class="text-on-surface">Costo de producto</span>

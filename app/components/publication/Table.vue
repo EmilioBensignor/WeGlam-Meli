@@ -6,6 +6,7 @@
 
   <UTable v-else-if="publications.length" :data="publications" :columns="columns" :ui="{
     root: 'w-full',
+    base: 'table-fixed w-full',
     thead: 'bg-surface-lowest',
     th: 'text-sm text-on-surface-variant font-medium px-4 py-3 cursor-default whitespace-nowrap',
     td: 'px-4 py-3 text-sm',
@@ -22,7 +23,7 @@
     </template>
 
     <template #titulo-cell="{ row }">
-      <span class="text-on-surface font-medium">{{ row.original.titulo }}</span>
+      <span class="text-on-surface font-medium line-clamp-2 leading-snug">{{ row.original.titulo }}</span>
     </template>
 
     <template #precio-cell="{ row }">
@@ -79,16 +80,16 @@ const props = defineProps({
 const emit = defineEmits(['select'])
 
 const columns = [
-  { accessorKey: 'imagen', header: '' },
-  { accessorKey: 'mlaId', header: 'MLA ID' },
-  { accessorKey: 'titulo', header: 'Título' },
-  { accessorKey: 'precio', header: 'Precio' },
-  { accessorKey: 'stock', header: 'Stock' },
-  { accessorKey: 'visitas30d', header: 'Visitas 30d' },
-  { accessorKey: 'ventas30d', header: 'Ventas 30d' },
-  { accessorKey: 'conversion', header: 'Conv. %' },
-  { accessorKey: 'estado', header: 'Estado' },
-  { accessorKey: 'healthScore', header: 'Salud' },
+  { accessorKey: 'imagen', header: '', meta: { style: { th: { width: '72px' }, td: { width: '72px' } } } },
+  { accessorKey: 'mlaId', header: 'MLA ID', meta: { style: { th: { width: '130px' }, td: { width: '130px' } } } },
+  { accessorKey: 'titulo', header: 'Título', meta: { style: { td: { maxWidth: '0', overflow: 'hidden' } } } },
+  { accessorKey: 'precio', header: 'Precio', meta: { style: { th: { width: '110px' }, td: { width: '110px' } } } },
+  { accessorKey: 'stock', header: 'Stock', meta: { style: { th: { width: '70px' }, td: { width: '70px' } } } },
+  { accessorKey: 'visitas30d', header: 'Visitas 30d', meta: { style: { th: { width: '100px' }, td: { width: '100px' } } } },
+  { accessorKey: 'ventas30d', header: 'Ventas 30d', meta: { style: { th: { width: '100px' }, td: { width: '100px' } } } },
+  { accessorKey: 'conversion', header: 'Conv. %', meta: { style: { th: { width: '90px' }, td: { width: '90px' } } } },
+  { accessorKey: 'estado', header: 'Estado', meta: { style: { th: { width: '100px' }, td: { width: '100px' } } } },
+  { accessorKey: 'healthScore', header: 'Salud', meta: { style: { th: { width: '80px' }, td: { width: '80px' } } } },
 ]
 
 

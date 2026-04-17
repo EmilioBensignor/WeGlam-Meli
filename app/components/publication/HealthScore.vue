@@ -5,10 +5,15 @@
         <Icon name="i-tabler-chart-dots" class="text-green-600 dark:text-green-400" size="24" />
         Salud de la Publicación
       </HeadingH1>
-      <span class="text-base font-bold rounded-full px-3 py-1"
-        :class="score >= 70 ? 'bg-green-400/10 text-green-600 dark:text-green-400' : score >= 40 ? 'bg-yellow-400/10 text-yellow-600 dark:text-yellow-400' : 'bg-red-400/10 text-red-600 dark:text-red-400'">
-        Score: {{ score }}/100
-      </span>
+      <div class="flex items-center gap-2">
+        <span v-if="mlLevel" class="text-base font-semibold rounded-full px-3 py-1 bg-primary-400/10 text-primary-600 dark:text-primary-400">
+          {{ mlLevel }}
+        </span>
+        <span class="text-base font-bold rounded-full px-3 py-1"
+          :class="score >= 70 ? 'bg-green-400/10 text-green-600 dark:text-green-400' : score >= 40 ? 'bg-yellow-400/10 text-yellow-600 dark:text-yellow-400' : 'bg-red-400/10 text-red-600 dark:text-red-400'">
+          Score: {{ score }}/100
+        </span>
+      </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
       <div class="flex flex-col gap-4">
@@ -55,6 +60,7 @@ const props = defineProps({
   score: { type: Number, required: true },
   label: { type: String, required: true },
   criteria: { type: Array, required: true },
+  mlLevel: { type: String, default: null },
 })
 
 const radius = 70
