@@ -35,7 +35,7 @@
       </div>
       <div class="flex justify-between items-center py-2">
         <span class="text-on-surface">Publicidad (Ads)</span>
-        <span class="font-bold text-on-surface">-{{ formatProfitValue(profit.publicidad) }}</span>
+        <span class="font-bold text-on-surface">-{{ formatProfitValue(profit.publicidadPorUnidad ?? profit.publicidad) }}</span>
       </div>
     </div>
 
