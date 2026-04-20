@@ -23,12 +23,16 @@ export function useProducts() {
       )
     }
 
-    if (selectedStatus.value === 'con_stock') {
-      result = result.filter(p => p.stockTotal > 0)
-    } else if (selectedStatus.value === 'sin_stock') {
-      result = result.filter(p => p.stockTotal === 0)
+    if (selectedStatus.value === 'active') {
+      result = result.filter(p => p.publicacionesActivas > 0)
+    } else if (selectedStatus.value === 'paused') {
+      result = result.filter(p => p.publicacionesPausadas > 0)
     } else if (selectedStatus.value === 'con_preguntas') {
       result = result.filter(p => p.preguntasSinResponder > 0)
+    } else if (selectedStatus.value === 'sin_stock') {
+      result = result.filter(p => p.stockTotal === 0)
+    } else if (selectedStatus.value === 'con_stock') {
+      result = result.filter(p => p.stockTotal > 0)
     }
 
     if (selectedHealth.value === 'saludable') {

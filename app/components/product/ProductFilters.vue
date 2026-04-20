@@ -39,9 +39,11 @@ const sortBy = defineModel('sortBy', { default: 'ventas' })
 
 const statusOptions = [
   { label: 'Todos', value: 'all' },
-  { label: 'Con stock', value: 'con_stock' },
-  { label: 'Sin stock', value: 'sin_stock' },
+  { label: 'Activas', value: 'active' },
+  { label: 'Pausadas', value: 'paused' },
   { label: 'Con preguntas', value: 'con_preguntas' },
+  { label: 'Sin stock', value: 'sin_stock' },
+  { label: 'Con stock', value: 'con_stock' },
 ]
 
 const healthOptions = [
