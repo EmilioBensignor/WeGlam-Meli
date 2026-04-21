@@ -5,8 +5,11 @@ import {
   PointElement,
   LineElement,
   BarElement,
+  LineController,
+  BarController,
   Filler,
   Tooltip,
+  Legend,
 } from 'chart.js'
 
 export default defineNuxtPlugin(() => {
@@ -16,7 +19,10 @@ export default defineNuxtPlugin(() => {
     PointElement,
     LineElement,
     BarElement,
+    LineController,
+    BarController,
     Filler,
-    Tooltip
+    Tooltip,
+    Legend
   )
 })

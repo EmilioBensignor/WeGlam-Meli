@@ -1,17 +1,22 @@
 <template>
   <section class="h-full flex flex-col justify-between gap-4">
     <div class="flex flex-col gap-4">
-      <div>
+      <div class="flex items-end justify-between gap-4 flex-wrap">
         <div class="flex items-end gap-4">
           <HeadingH1>Productos</HeadingH1>
           <span class="bg-primary-400 rounded-full text-sm text-black font-semibold border border-primary-400/50 px-3.5 py-1">
             {{ filteredProducts.length }}
           </span>
         </div>
+        <button type="button" @click="clearFilters"
+          class="flex items-center gap-1.5 text-base font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+          <Icon name="i-tabler-filter-off" class="size-4" />
+          Limpiar filtros
+        </button>
       </div>
 
       <ProductFilters v-model:search-query="searchQuery" v-model:selected-status="selectedStatus"
-        v-model:selected-health="selectedHealth" v-model:sort-by="sortBy" />
+        v-model:selected-health="selectedHealth" v-model:sort-by="sortBy" v-model:hide-ghosts="hideGhosts" />
 
       <div v-if="loading" class="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <div v-for="i in pageSize" :key="i"
@@ -57,10 +62,12 @@ const {
   selectedStatus,
   selectedHealth,
   sortBy,
+  hideGhosts,
   currentPage,
   pageSize,
   totalPages,
   fetchProducts,
+  clearFilters,
 } = useProducts()
 
 onMounted(() => {

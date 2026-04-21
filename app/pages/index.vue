@@ -86,6 +86,23 @@
       </template>
     </section>
 
+    <section>
+      <div v-if="paretoLoading" class="flex flex-col gap-4 bg-surface-lowest rounded-xl border border-outline-variant/30 p-4">
+        <div class="flex justify-between items-start">
+          <div class="flex flex-col gap-1">
+            <USkeleton class="h-6 w-48" />
+            <USkeleton class="h-4 w-64" />
+          </div>
+          <USkeleton class="h-4 w-32" />
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <USkeleton v-for="i in 3" :key="i" class="h-20 rounded-xl" />
+        </div>
+        <USkeleton class="h-72 w-full rounded-lg" />
+      </div>
+      <DashboardParetoChart v-else :publications="allPublications" />
+    </section>
+
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <template v-if="loading">
         <div v-for="i in 2" :key="i" class="bg-surface-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
@@ -119,8 +136,10 @@
 definePageMeta({ layout: 'dashboard' })
 
 const { loading, kpis, salesData, adPerformanceData, topProducts, worstProducts, reputation, fetchStats } = useDashboardStats()
+const { publications: allPublications, loading: paretoLoading, fetchAllPublications } = useAllPublications()
 
 onMounted(() => {
   fetchStats()
+  fetchAllPublications()
 })
 </script>

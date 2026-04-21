@@ -18,6 +18,15 @@
         <USelect :model-value="selectedHealth || 'all'" :items="healthOptions" placeholder="Todas" size="lg"
           variant="outline" color="neutral" class="min-w-40" @update:model-value="onHealthChange" />
       </div>
+
+      <label class="flex items-center gap-2 h-10 self-end cursor-pointer select-none px-3 rounded-xl border border-outline-variant/30 bg-surface-high/40 hover:bg-surface-high transition-colors"
+        :title="'Oculta productos cuyas publicaciones tienen links inválidos a Mercado Libre'">
+        <USwitch v-model="hideGhosts" size="sm" />
+        <span class="flex items-center gap-1.5 text-base text-on-surface font-medium">
+          <Icon name="i-tabler-ghost-2" class="size-4 text-on-surface-variant" />
+          Ocultar fantasmas
+        </span>
+      </label>
     </div>
 
     <div class="flex bg-surface-high rounded-xl p-1 border border-outline-variant/30">
@@ -36,6 +45,7 @@ const searchQuery = defineModel('searchQuery', { default: '' })
 const selectedStatus = defineModel('selectedStatus', { default: null })
 const selectedHealth = defineModel('selectedHealth', { default: null })
 const sortBy = defineModel('sortBy', { default: 'ventas' })
+const hideGhosts = defineModel('hideGhosts', { default: false })
 
 const statusOptions = [
   { label: 'Todos', value: 'all' },

@@ -3,10 +3,40 @@ export function useProducts() {
   const loading = ref(true)
   const error = ref(null)
 
-  const searchQuery = ref('')
-  const selectedStatus = ref(null)
-  const selectedHealth = ref(null)
-  const sortBy = ref('ventas')
+  const defaultFilters = {
+    searchQuery: '',
+    selectedStatus: null,
+    selectedHealth: null,
+    sortBy: 'ventas',
+    hideGhosts: false,
+  }
+
+  const filters = usePersistedRef('weglam:productos:filters:v1', { ...defaultFilters })
+
+  const searchQuery = computed({
+    get: () => filters.value.searchQuery,
+    set: (v) => { filters.value.searchQuery = v },
+  })
+  const selectedStatus = computed({
+    get: () => filters.value.selectedStatus,
+    set: (v) => { filters.value.selectedStatus = v },
+  })
+  const selectedHealth = computed({
+    get: () => filters.value.selectedHealth,
+    set: (v) => { filters.value.selectedHealth = v },
+  })
+  const sortBy = computed({
+    get: () => filters.value.sortBy,
+    set: (v) => { filters.value.sortBy = v },
+  })
+  const hideGhosts = computed({
+    get: () => filters.value.hideGhosts,
+    set: (v) => { filters.value.hideGhosts = v },
+  })
+
+  function clearFilters() {
+    filters.value = { ...defaultFilters }
+  }
 
   const currentPage = ref(1)
   const pageSize = ref(10)
@@ -33,6 +63,11 @@ export function useProducts() {
       result = result.filter(p => p.stockTotal === 0)
     } else if (selectedStatus.value === 'con_stock') {
       result = result.filter(p => p.stockTotal > 0)
+    }
+
+    if (hideGhosts.value) {
+      // Un producto es "fantasma" si TODAS sus publicaciones son fantasma (ninguna válida)
+      result = result.filter(p => (p.publicaciones - p.publicacionesFantasma) > 0)
     }
 
     if (selectedHealth.value === 'saludable') {
@@ -74,7 +109,7 @@ export function useProducts() {
     return filteredProducts.value.slice(start, start + pageSize.value)
   })
 
-  watch([searchQuery, selectedStatus, selectedHealth, sortBy], () => {
+  watch([searchQuery, selectedStatus, selectedHealth, sortBy, hideGhosts], () => {
     currentPage.value = 1
   })
 
@@ -102,6 +137,7 @@ export function useProducts() {
         ventas30d: item.ventas_30d ?? 0,
         visitas30d: item.visitas_30d ?? 0,
         preguntasSinResponder: item.preguntas_sin_responder ?? 0,
+        publicacionesFantasma: item.publicaciones_fantasma ?? 0,
         trend: item.trend ?? 0,
       }))
     } catch (e) {
@@ -121,9 +157,11 @@ export function useProducts() {
     selectedStatus,
     selectedHealth,
     sortBy,
+    hideGhosts,
     currentPage,
     pageSize,
     totalPages,
     fetchProducts,
+    clearFilters,
   }
 }

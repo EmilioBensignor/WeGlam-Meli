@@ -10,8 +10,8 @@
     thead: 'bg-surface-lowest',
     th: 'text-sm text-on-surface-variant font-medium px-4 py-3 cursor-default whitespace-nowrap',
     td: 'px-4 py-3 text-sm',
-    tr: 'hover:bg-surface-high/50 cursor-pointer transition-colors duration-300 first:hover:bg-transparent first:cursor-default',
-  }" @select="(e, row) => emit('select', row)">
+    tr: 'hover:bg-surface-high/50 transition-colors duration-300 first:hover:bg-transparent',
+  }">
     <template #imagen-cell="{ row }">
       <div class="w-12 h-12 rounded-lg bg-surface-highest border border-outline-variant/30 overflow-hidden shrink-0">
         <NuxtImg :src="row.original.imagen" :alt="row.original.titulo" class="w-full h-full object-cover" loading="lazy" />
@@ -19,11 +19,21 @@
     </template>
 
     <template #mlaId-cell="{ row }">
-      <span class="text-on-surface-variant">{{ row.original.mlaId }}</span>
+      <button type="button" @click="copyMla(row.original.mlaId)"
+        class="group inline-flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface transition-colors"
+        :title="`Copiar ${row.original.mlaId}`">
+        <span>{{ row.original.mlaId }}</span>
+        <Icon :name="copiedMla === row.original.mlaId ? 'i-tabler-check' : 'i-tabler-copy'"
+          class="size-3.5 opacity-0 group-hover:opacity-100 transition-opacity"
+          :class="{ 'opacity-100 text-green-600 dark:text-green-400': copiedMla === row.original.mlaId }" />
+      </button>
     </template>
 
     <template #titulo-cell="{ row }">
-      <span class="text-on-surface font-medium line-clamp-2 leading-snug">{{ row.original.titulo }}</span>
+      <button type="button" @click="emit('select', row)"
+        class="text-left text-on-surface font-medium line-clamp-2 leading-snug hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+        {{ row.original.titulo }}
+      </button>
     </template>
 
     <template #precio-cell="{ row }">
@@ -78,6 +88,22 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['select'])
+
+const { success, error: notifyError } = useNotification()
+const copiedMla = ref(null)
+
+async function copyMla(mla) {
+  try {
+    await navigator.clipboard.writeText(mla)
+    copiedMla.value = mla
+    success(`${mla} copiado`)
+    setTimeout(() => {
+      if (copiedMla.value === mla) copiedMla.value = null
+    }, 1500)
+  } catch (e) {
+    notifyError('No se pudo copiar el MLA')
+  }
+}
 
 const columns = [
   { accessorKey: 'imagen', header: '', meta: { style: { th: { width: '72px' }, td: { width: '72px' } } } },

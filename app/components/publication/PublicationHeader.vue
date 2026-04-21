@@ -9,7 +9,14 @@
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
           <SharedStatusBadge :status="statusLabel" />
-          <span class="text-base text-on-surface-variant">{{ publication.mlaId }}</span>
+          <button type="button" @click="copyMla"
+            class="group inline-flex items-center gap-1.5 text-base text-on-surface-variant hover:text-on-surface transition-colors"
+            :title="`Copiar ${publication.mlaId}`">
+            <span>{{ publication.mlaId }}</span>
+            <Icon :name="copied ? 'i-tabler-check' : 'i-tabler-copy'"
+              class="size-4 opacity-0 group-hover:opacity-100 transition-opacity"
+              :class="{ 'opacity-100 text-green-600 dark:text-green-400': copied }" />
+          </button>
         </div>
         <HeadingH1>{{ publication.titulo }}</HeadingH1>
         <div class="flex items-center gap-6">
@@ -45,4 +52,18 @@ const statusLabel = computed(() => {
 // Precios: priorizar profit (que viene del endpoint /metrics con precios reales de ML)
 const precioVenta = computed(() => props.profit?.precioVenta ?? props.publication.precio)
 const precioOriginal = computed(() => props.profit?.precioOriginal ?? props.publication.precioOriginal)
+
+const { success, error: notifyError } = useNotification()
+const copied = ref(false)
+
+async function copyMla() {
+  try {
+    await navigator.clipboard.writeText(props.publication.mlaId)
+    copied.value = true
+    success(`${props.publication.mlaId} copiado`)
+    setTimeout(() => { copied.value = false }, 1500)
+  } catch (e) {
+    notifyError('No se pudo copiar el MLA')
+  }
+}
 </script>
